@@ -189,19 +189,19 @@ def game_over_scene(final_score):
     text = []
 
     text0 = stage.Text(width=29, height=14, font=None,
-                       palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+                       palette=constants.SCORE_PALETTE, buffer=None)
     text0.move(22, 20)
     text0.text("Final Score: {:0>2d}".format(final_score))
     text.append(text0)
 
     text1 = stage.Text(width=29, height=14, font=None,
-                       palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+                       palette=constants.SCORE_PALETTE, buffer=None)
     text1.move(43, 60)
     text1.text("GAME OVER")
     text.append(text1)
 
     text2 = stage.Text(width=29, height=14, font=None,
-                       palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+                       palette=constants.SCORE_PALETTE, buffer=None)
     text2.move(32, 110)
     text2.text("PRESS SELECT")
     text.append(text2)
