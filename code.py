@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-# Created by: ????
-# Created on: ???? 2019
-# This file is the "????" game
+# Created by: Joey Marcotte and Ben Whitten
+# Created on: December 18 2019
+# This file is the "Jungle Joe and Snakob's Bongo Bonanza" game
 #   for CircuitPython
 
 import ugame
@@ -96,12 +96,14 @@ def mt_splash_scene():
 
     text = []
 
-    text1 = stage.Text(width=29, height=14, font=None, palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+    text1 = stage.Text(width=29, height=14, font=None,
+                       palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
     text1.move(20, 10)
     text1.text("MT Game Studios")
     text.append(text1)
 
-    text2 = stage.Text(width=29, height=14, font=None, palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+    text2 = stage.Text(width=29, height=14, font=None,
+                       palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
     text2.move(35, 110)
     text2.text("PRESS START")
     text.append(text2)
@@ -177,16 +179,54 @@ def game_scene():
 
 def game_over_scene(final_score):
     # this function is the game over scene
+    # an image bank for CircuitPython
+    image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
+
+    # sets the background to image 0 in the bank
+    background = stage.Grid(image_bank_3, constants.SCREEN_GRID_X,
+                            constants.SCREEN_GRID_Y)
+
+    text = []
+
+    text0 = stage.Text(width=29, height=14, font=None,
+                       palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+    text0.move(22, 20)
+    text0.text("Final Score: {:0>2d}".format(final_score))
+    text.append(text0)
+
+    text1 = stage.Text(width=29, height=14, font=None,
+                       palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+    text1.move(43, 60)
+    text1.text("GAME OVER")
+    text.append(text1)
+
+    text2 = stage.Text(width=29, height=14, font=None,
+                       palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+    text2.move(32, 110)
+    text2.text("PRESS SELECT")
+    text.append(text2)
+
+    # create a stage for the background to show up on
+    #   and set the frame rate to 60fps
+    game = stage.Stage(ugame.display, 60)
+    # set the layers, items show up in order
+    game.layers = text + [background]
+    # render the background and inital location of sprite list
+    # most likely you will only render background once per scene
+    game.render_block()
 
     # repeat forever, game loop
     while True:
         # get user input
 
         # update game logic
+        keys = ugame.buttons.get_pressed()
+        #print(keys)
 
-        # redraw sprite list
-        pass # just a placeholder until you write the code
-
+        if keys & ugame.K_SELECT != 0:  # Start button
+            keys = 0
+            main_menu_scene()
+            #break
 
 if __name__ == "__main__":
     blank_white_reset_scene()
