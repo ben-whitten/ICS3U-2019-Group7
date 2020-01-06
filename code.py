@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
-# Created by: Ben Whitten
-# Created on: December 2019
+# Created by: Joey Marcotte and Ben Whitten
+# Created on: December 18 2019
 # This file is the "Jungle Joe and Snakob" game
 # for CircuitPython
 
 import ugame
 import stage
 import board
-# import neopixel
+import neopixel
 import time
 import random
 
