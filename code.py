@@ -8,7 +8,7 @@
 import ugame
 import stage
 import board
-import neopixel
+# import neopixel
 import time
 import random
 
@@ -21,8 +21,8 @@ def blank_white_reset_scene():
     # do house keeping to ensure everythng is setup
 
     # set up the NeoPixels
-    pixels = neopixel.NeoPixel(board.NEOPIXEL, 5, auto_write=False)
-    pixels.deinit() # and turn them all off
+    # pixels = neopixel.NeoPixel(board.NEOPIXEL, 5, auto_write=False)
+    # pixels.deinit() # and turn them all off
 
     # reset sound to be off
     sound = ugame.audio
@@ -126,33 +126,108 @@ def mt_splash_scene():
     # most likely you will only render background once per scene
     game.render_block()
 
-    # repeat forever, game loop
-    while True:
-        # get user input
-
-        # update game logic
-
-        # Wait for 1 seconds
-        time.sleep(1.0)
-        game_splash_scene()
-
-        # redraw sprite list
-
 def game_splash_scene():
     # this function is the game scene
+    text = []
+    sprites = []
+
+    image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
+    image_bank_4 = stage.Bank.from_bmp16("elemental_studios.bmp")
+
+    # sets the background to image 0 in the bank
+    background = stage.Grid(image_bank_3, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
+
+    text_1 = stage.Text(width=29, height=14, font=None, palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+    text_1.move(13, 60)
+    text_1.text("ELEMENTAL STUDIOS")
+    text.append(text_1)
+
+    fire_upper_right = stage.Sprite(image_bank_4, 1, 16, 0)
+    sprites.append(fire_upper_right)
+    fire_bottom_right = stage.Sprite(image_bank_4, 2, 16, 16)
+    sprites.append(fire_bottom_right)
+    fire_upper_left = stage.Sprite(image_bank_4, 3, 0, 0)
+    sprites.append(fire_upper_left)
+    fire_bottom_left = stage.Sprite(image_bank_4, 4, 0, 16)
+    sprites.append(fire_bottom_left)
+
+    water_upper_right = stage.Sprite(image_bank_4, 5, 144, 0)
+    sprites.append(water_upper_right)
+    water_bottom_right = stage.Sprite(image_bank_4, 6, 144, 16)
+    sprites.append(water_bottom_right)
+    water_upper_left = stage.Sprite(image_bank_4, 7, 128, 0)
+    sprites.append(water_upper_left)
+    water_bottom_left = stage.Sprite(image_bank_4, 8, 128, 16)
+    sprites.append(water_bottom_left)
+
+    earth_upper_right = stage.Sprite(image_bank_4, 9, 16, 98)
+    sprites.append(earth_upper_right)
+    earth_bottom_right = stage.Sprite(image_bank_4, 10, 16, 112)
+    sprites.append(earth_bottom_right)
+    earth_upper_left = stage.Sprite(image_bank_4, 11, 0, 98)
+    sprites.append(earth_upper_left)
+    earth_bottom_left = stage.Sprite(image_bank_4, 12, 0, 112)
+    sprites.append(earth_bottom_left)
+
+    wind_upper_right = stage.Sprite(image_bank_4, 13, 144, 98)
+    sprites.append(wind_upper_right)
+    wind_bottom_right = stage.Sprite(image_bank_4, 14, 144, 112)
+    sprites.append(wind_bottom_right)
+    wind_upper_left = stage.Sprite(image_bank_4, 15, 128, 98)
+    sprites.append(wind_upper_left)
+    wind_bottom_left = stage.Sprite(image_bank_4, 16, 128, 112)
+    sprites.append(wind_bottom_left)
+
+    game = stage.Stage(ugame.display, 60)
+    # set the layers, items show up in order
+    game.layers = sprites + text + [background]
+    # render the background and inital location of sprite list
+    # most likely you will only render background once per scene
+    # wait until refresh rate finishes
+    game.render_block()
 
     # repeat forever, game loop
     while True:
         # get user input
-
         # update game logic
-
         # redraw sprite list
         pass # just a placeholder until you write the code
 
 
 def main_menu_scene():
-    # this function is the game scene
+    # this function is the main menu scene
+    text = []
+    sprites = []
+
+    image_bank_5 = stage.Bank.from_bmp16("Backgrounds.bmp")
+
+    # sets the background to image 0 in the bank
+    background = stage.Grid(image_bank_5, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
+
+    background.tile(2, 1, 8)
+    background.tile(2, 2, 8)
+    background.tile(2, 3, 8)
+    background.tile(2, 4, 8)
+    background.tile(2, 5, 8)
+    background.tile(2, 6, 8)
+    background.tile(2, 7, 8)
+    background.tile(2, 8, 8)
+    background.tile(2, 9, 8)
+    background.tile(2, 10, 8)
+    
+    text_1 = stage.Text(width=29, height=14, font=None, palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
+    text_1.move(43, 60)
+    text_1.text("JUNGLE JOE")
+    text.append(text_1)
+
+    game = stage.Stage(ugame.display, 60)
+    # set the layers, items show up in order
+    game.layers = text + [background]
+    # sprites +
+    # render the background and inital location of sprite list
+    # most likely you will only render background once per scene
+    # wait until refresh rate finishes
+    game.render_block()
 
     # repeat forever, game loop
     while True:
@@ -229,4 +304,5 @@ def game_over_scene(final_score):
             #break
 
 if __name__ == "__main__":
-    blank_white_reset_scene()
+    main_menu_scene()
+    # blank_white_reset_scene()
