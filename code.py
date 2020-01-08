@@ -310,7 +310,7 @@ def game_scene():
         for y_location in range(constants.SCREEN_GRID_Y):
             tile_picked = random.randint(2,3)
             background.tile(x_location, y_location, tile_picked)
-    for x_location in range(constants.SCREEN_GRID_2_X, constants.SCREEN_GRID_3_X):
+    for x_location in range(constants.SCREEN_GRID_2_X, constants.SCREEN_GRID_Y):
         for y_location in range(constants.SCREEN_GRID_Y):
             background.tile(x_location, y_location, 5)
 
@@ -333,17 +333,17 @@ def game_scene():
     border.append(border_8)
 
     # Displays key sprites.
-    a_button = stage.Sprite(image_bank_3, 12, constants.A_BUTTON_LOCATION, constants.BUTTON_HEIGHT)
+    a_button = stage.Sprite(image_bank_3, 12, constants.A_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(a_button)
-    b_button = stage.Sprite(image_bank_3, 11, constants.B_BUTTON_LOCATION, constants.BUTTON_HEIGHT)
+    b_button = stage.Sprite(image_bank_3, 11, constants.B_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(b_button)
-    left_arrow = stage.Sprite(image_bank_3, 8, constants.LEFT_ARROW_LOCATION, constants.BUTTON_HEIGHT)
+    left_arrow = stage.Sprite(image_bank_3, 8, constants.LEFT_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(left_arrow)
-    right_arrow = stage.Sprite(image_bank_3, 7, constants.RIGHT_ARROW_LOCATION, constants.BUTTON_HEIGHT)
+    right_arrow = stage.Sprite(image_bank_3, 7, constants.RIGHT_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(right_arrow)
-    up_arrow = stage.Sprite(image_bank_3, 10, constants.UP_ARROW_LOCATION, constants.BUTTON_HEIGHT)
+    up_arrow = stage.Sprite(image_bank_3, 10, constants.UP_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(up_arrow)
-    down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_ARROW_LOCATION, constants.BUTTON_HEIGHT)
+    down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(down_arrow)
     
     def show_abutton():
