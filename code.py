@@ -286,13 +286,176 @@ def main_menu_scene():
 
 def game_scene():
     # this function is the game scene
+    image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
+    
+    def show_abutton():
+        # I know this is a function that is using variables outside of itself!
+        #   BUT this code is going to be used in 2 places :)
+        # make a button show up on screen in the x-axis
+        for a_button_number in range(len(abutton)):
+            if abutton[a_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
+                abutton[a_button_number].move(constants.A_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                break
+
+    # create buttons
+    abutton = []
+    for a_button_number in range(constants.TOTAL_NUMBER_OF_A_BUTTON):
+        a_single_abutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        abutton.append(a_single_abutton)
+
+    # current number of buttons that should be moving down screen, start with just 1
+    abutton_count = 1
+    show_abutton()
+
+    def show_bbutton():
+        # I know this is a function that is using variables outside of itself!
+        #   BUT this code is going to be used in 2 places :)
+        # make an button show up on screen in the x-axis
+        for b_button_number in range(len(bbutton)):
+            if bbutton[b_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
+                bbutton[b_button_number].move(constants.B_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                break
+
+    # create buttons
+    bbutton = []
+    for b_button_number in range(constants.TOTAL_NUMBER_OF_B_BUTTON):
+        a_single_bbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        bbutton.append(a_single_bbutton)
+
+    # current number of buttons that should be moving down screen, start with just 1
+    bbutton_count = 1
+    show_bbutton()
+
+    def show_upbutton():
+        # I know this is a function that is using variables outside of itself!
+        #   BUT this code is going to be used in 2 places :)
+        # make an button show up on screen in the x-axis
+        for up_button_number in range(len(upbutton)):
+            if upbutton[up_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
+                upbutton[up_button_number].move(constants.UP_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                break
+
+    # create buttons
+    upbutton = []
+    for up_button_number in range(constants.TOTAL_NUMBER_OF_UP_BUTTON):
+        a_single_upbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        upbutton.append(a_single_upbutton)
+
+    # current number of buttons that should be moving down screen, start with just 1
+    upbutton_count = 1
+    show_upbutton()
+
+    def show_downbutton():
+        # I know this is a function that is using variables outside of itself!
+        #   BUT this code is going to be used in 2 places :)
+        # make an button show up on screen in the x-axis
+        for down_button_number in range(len(downbutton)):
+            if downbutton[down_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
+                downbutton[down_button_number].move(constants.DOWN_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                break
+
+    # create buttons
+    downbutton = []
+    for down_button_number in range(constants.TOTAL_NUMBER_OF_DOWN_BUTTON):
+        a_single_downbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        downbutton.append(a_single_downbutton)
+
+    # current number of buttons that should be moving down screen, start with just 1
+    downbutton_count = 1
+    show_downbutton()
+
+    def show_leftbutton():
+        # I know this is a function that is using variables outside of itself!
+        #   BUT this code is going to be used in 2 places :)
+        # make an button show up on screen in the x-axis
+        for left_button_number in range(len(leftbutton)):
+            if leftbutton[left_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
+                leftbutton[left_button_number].move(constants.LEFT_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                break
+
+    # create buttons
+    leftbutton = []
+    for left_button_number in range(constants.TOTAL_NUMBER_OF_LEFT_BUTTON):
+        a_single_leftbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        leftbutton.append(a_single_leftbutton)
+
+    # current number of buttons that should be moving down screen, start with just 1
+    leftbutton_count = 1
+    show_leftbutton()
+
+    def show_rightbutton():
+        # I know this is a function that is using variables outside of itself!
+        #   BUT this code is going to be used in 2 places :)
+        # make an button show up on screen in the x-axis
+        for right_button_number in range(len(rightbutton)):
+            if rightbutton[right_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
+                rightbutton[right_button_number].move(constants.RIGHT_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                break
+
+    # create buttons
+    rightbutton = []
+    for right_button_number in range(constants.TOTAL_NUMBER_OF_RIGHT_BUTTON):
+        a_single_rightbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        rightbutton.append(a_single_rightbutton)
+
+    # current number of button that should be moving down screen, start with just 1
+    rightbutton_count = 1
+    show_rightbutton()
 
     # repeat forever, game loop
     while True:
         # get user input
 
         # update game logic
+        rand_number = random.randint(0, 6+1)
 
+        if rand_number == 1:    
+            for a_button_number in range(len(abutton)):
+                if abutton[a_button_number].x > 0: # meaning it is on the screen
+                    abutton[a_button_number].move(abutton[a_button_number].x, abutton[a_button_number].y + constants.BUTTON_SPEED)
+                    if abutton[a_button_number].y > constants.SCREEN_Y:
+                        abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        show_abutton() # make it randomly show up at top again
+
+        if rand_number == 2:    
+            for b_button_number in range(len(bbutton)):
+                if bbutton[b_button_number].x > 0: # meaning it is on the screen
+                    bbutton[b_button_number].move(bbutton[b_button_number].x, bbutton[b_button_number].y + constants.BUTTON_SPEED)
+                    if bbutton[b_button_number].y > constants.SCREEN_Y:
+                        bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        show_bbutton() # make it randomly show up at top again
+
+        if rand_number == 3:    
+            for up_button_number in range(len(upbutton)):
+                if upbutton[up_button_number].x > 0: # meaning it is on the screen
+                    upbutton[up_button_number].move(upbutton[up_button_number].x, upbutton[up_button_number].y + constants.BUTTON_SPEED)
+                    if upbutton[up_button_number].y > constants.SCREEN_Y:
+                        upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        show_upbutton() # make it randomly show up at top again
+
+        if rand_number == 4:    
+            for down_button_number in range(len(downbutton)):
+                if downbutton[down_button_number].x > 0: # meaning it is on the screen
+                    downbutton[down_button_number].move(downbutton[down_button_number].x, downbutton[down_button_number].y + constants.BUTTON_SPEED)
+                    if downbutton[down_button_number].y > constants.SCREEN_Y:
+                        downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        show_downbutton() # make it randomly show up at top again
+
+        if rand_number == 5:    
+            for left_button_number in range(len(leftbutton)):
+                if leftbutton[left_button_number].x > 0: # meaning it is on the screen
+                    leftbutton[left_button_number].move(leftbutton[left_button_number].x, leftbutton[left_button_number].y + constants.BUTTON_SPEED)
+                    if leftbutton[left_button_number].y > constants.SCREEN_Y:
+                        leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        show_leftbutton() # make it randomly show up at top again
+
+        if rand_number == 6:    
+            for right_button_number in range(len(rightbutton)):
+                if rightbutton[right_button_number].x > 0: # meaning it is on the screen
+                    rightbutton[right_button_number].move(rightbutton[right_button_number].x, rightbutton[right_button_number].y + constants.BUTTON_SPEED)
+                    if rightbutton[right_button_number].y > constants.SCREEN_Y:
+                        rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        show_rightbutton() # make it randomly show up at top again
         # redraw sprite list
         pass # just a placeholder until you write the code
 
@@ -306,9 +469,10 @@ def game_over_scene(final_score):
 
         # update game logic
 
-        # redraw sprite list
-        pass # just a placeholder until you write the code
-
+        if keys & ugame.K_SELECT != 0:  # Start button
+            keys = 0
+            main_menu_scene()
+            break
 
 if __name__ == "__main__":
     blank_white_reset_scene()
