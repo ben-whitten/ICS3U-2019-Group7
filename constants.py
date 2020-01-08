@@ -45,18 +45,3 @@ button_state = {
     "button_still_pressed": "still pressed",
     "button_released": "released",
 }
-
-
-MT_GAME_STUDIO_PALETTE = (b'\xf8\x1f\x00\x00\xcey\x00\xff\xf8\x1f\xff\x19\xfc\xe0\xfd\xe0'
-       b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff')
-
-SCORE_PALETTE = (b'\xf8\x1f\x00\x00\xcey\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff'
-       b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff')
-
-# Using for button state
-button_state = {
-    "button_up": "up",
-    "button_just_pressed": "just pressed",
-    "button_still_pressed": "still pressed",
-    "button_released": "released",
-}
