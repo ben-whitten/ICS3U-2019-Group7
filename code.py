@@ -524,7 +524,10 @@ def game_over_scene(final_score):
         # get user input
         # update game logic
         # redraw sprite list
-        pass # just a placeholder until you write the code
+        if keys & ugame.K_SELECT != 0:  # Start button
+            keys = 0
+            main_menu_scene()
+            break
 
 if __name__ == "__main__":
     blank_white_reset_scene()
