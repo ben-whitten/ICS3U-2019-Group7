@@ -205,7 +205,7 @@ def main_menu_scene():
     text_3.move(25, 68)
     text_3.text("BONGO BANANZA!")
     text.append(text_3)
-    
+
 
     text_4 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     text_4.move(35, 118)
@@ -332,10 +332,12 @@ def game_scene():
     border.append(border_7)
     border_8 = stage.Sprite(image_bank_5, 6, constants.BORDER_LOCATION, 112)
     border.append(border_8)
-    
+
     # Displays Jungle Joe and logs
     jungle_joe_standing = stage.Sprite(image_bank_3, 15, constants.JUNGLE_JOE_START_X, constants.JUNGLE_JOE_START_Y)
     jungle_joe.append(jungle_joe_standing)
+    jungle_joe_jumping = stage.Sprite(image_bank_3, 14, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+    jungle_joe.append(jungle_joe_jumping)
 
     # Displays key sprites.
     a_button = stage.Sprite(image_bank_3, 12, constants.A_BUTTON, constants.BUTTON_HEIGHT)
@@ -351,16 +353,18 @@ def game_scene():
     down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(down_arrow)
 
-    # def jungle_joe_jumping():
+    def jungle_joe_animation():
         # I know this is a function that is using variables outside of itself!
         #   BUT this code is going to be used in multiple places.
         # make jungle joe jump when you correctly destroy a key.
+        jungle_joe_jumping.move(jungle_joe[jungle_joe_standing].x, jungle_joe[jungle_joe_standing].y)
+        jungle_joe_standing.move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
 
     logs = []
     for log_number in range(constants.TOTAL_NUMBER_OF_A_LOGS):
         a_single_log = stage.Sprite(image_bank_3, 13, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
         logs.append(a_single_log)
-    
+
     logs[0].move(constants.LOG_1_START_X, constants.LOG_1_START_Y)
     logs[1].move(constants.RIGHT_LOG, constants.LOG_2_START_Y)
 
@@ -376,7 +380,7 @@ def game_scene():
             else:
                 logs[1].move(constants.LEFT_LOG, constants.INCOMING_LOG_HEIGHT)
 
-    
+
     def show_abutton():
         # I know this is a function that is using variables outside of itself!
         #   BUT this code is going to be used in 2 places :)
@@ -503,7 +507,7 @@ def game_scene():
         # update game logic
         rand_number = random.randint(0, 6+1)
 
-        if rand_number == 1:    
+        if rand_number == 1:
             for a_button_number in range(len(abutton)):
                 if abutton[a_button_number].x > 0: # meaning it is on the screen
                     abutton[a_button_number].move(abutton[a_button_number].x, abutton[a_button_number].y + constants.BUTTON_SPEED)
@@ -511,7 +515,7 @@ def game_scene():
                         abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_abutton() # make it randomly show up at top again
 
-        if rand_number == 2:    
+        if rand_number == 2:
             for b_button_number in range(len(bbutton)):
                 if bbutton[b_button_number].x > 0: # meaning it is on the screen
                     bbutton[b_button_number].move(bbutton[b_button_number].x, bbutton[b_button_number].y + constants.BUTTON_SPEED)
@@ -519,7 +523,7 @@ def game_scene():
                         bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_bbutton() # make it randomly show up at top again
 
-        if rand_number == 3:    
+        if rand_number == 3:
             for up_button_number in range(len(upbutton)):
                 if upbutton[up_button_number].x > 0: # meaning it is on the screen
                     upbutton[up_button_number].move(upbutton[up_button_number].x, upbutton[up_button_number].y + constants.BUTTON_SPEED)
@@ -527,7 +531,7 @@ def game_scene():
                         upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_upbutton() # make it randomly show up at top again
 
-        if rand_number == 4:    
+        if rand_number == 4:
             for down_button_number in range(len(downbutton)):
                 if downbutton[down_button_number].x > 0: # meaning it is on the screen
                     downbutton[down_button_number].move(downbutton[down_button_number].x, downbutton[down_button_number].y + constants.BUTTON_SPEED)
@@ -535,7 +539,7 @@ def game_scene():
                         downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_downbutton() # make it randomly show up at top again
 
-        if rand_number == 5:    
+        if rand_number == 5:
             for left_button_number in range(len(leftbutton)):
                 if leftbutton[left_button_number].x > 0: # meaning it is on the screen
                     leftbutton[left_button_number].move(leftbutton[left_button_number].x, leftbutton[left_button_number].y + constants.BUTTON_SPEED)
@@ -543,13 +547,35 @@ def game_scene():
                         leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_leftbutton() # make it randomly show up at top again
 
-        if rand_number == 6:    
+        if rand_number == 6:
             for right_button_number in range(len(rightbutton)):
                 if rightbutton[right_button_number].x > 0: # meaning it is on the screen
                     rightbutton[right_button_number].move(rightbutton[right_button_number].x, rightbutton[right_button_number].y + constants.BUTTON_SPEED)
                     if rightbutton[right_button_number].y > constants.SCREEN_Y:
                         rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_rightbutton() # make it randomly show up at top again
+
+        if jungle_joe_jumping.x > 0
+            for log_number in range(constants.TOTAL_NUMBER_OF_A_LOGS):
+                if logs[log_number].x > 0 and logs[log_number].x < 20 and logs[log_number].y < 40:
+                    if jungle_joe_jumping.x > logs[log_number].x:
+                        jungle_joe_jumping.move(jungle_joe_jumping.x - constants.JUNGLE_JOE_X_SPEED, jungle_joe_jumping.y)
+                    if jungle_joe_jumping.y > logs[log_number].y - constants.SPRITE_SIZE:
+                        jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
+                if logs[log_number].x > 20 and logs[log_number].y < 40:
+                    if jungle_joe_jumping.x < logs[log_number].x:
+                        jungle_joe_jumping.move(jungle_joe_jumping.x - constants.JUNGLE_JOE_X_SPEED, jungle_joe_jumping.y)
+                    if jungle_joe_jumping.y > logs[log_number].y - constants.SPRITE_SIZE:
+                        jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
+                if jungle_joe_jumping.x = logs[log_number].x and jungle_joe_jumping.y = logs[log_number].y - constants.SPRITE_SIZE and jungle_joe_jumping.y < 40:
+                    jungle_joe_standing.move(jungle_joe_jumping.x, jungle_joe_jumping.y)
+                    jungle_joe_jumping.move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+
+        if jungle_joe_standing.y > 97:
+            jungle_joe_standing.move(jungle_joe_standing.x, jungle_joe_standing.y + constants.SCROLL_SPEED)
+            logs[0].move(logs[0].x, logs[0].y + constants.SCROLL_SPEED)
+            logs[1].move(logs[0].x, logs[1].y + constants.SCROLL_SPEED)
+
         # redraw sprite list
         game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
         game.tick()  # wait until refresh rate finishes
