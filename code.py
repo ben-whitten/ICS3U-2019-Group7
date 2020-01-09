@@ -302,6 +302,7 @@ def game_scene():
     # this function is the game scene
     border = []
     sprites = []
+    jungle_joe = []
     image_bank_5 = stage.Bank.from_bmp16("backgrounds.bmp")
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
 
@@ -310,7 +311,7 @@ def game_scene():
         for y_location in range(constants.SCREEN_GRID_Y):
             tile_picked = random.randint(2,3)
             background.tile(x_location, y_location, tile_picked)
-    for x_location in range(constants.SCREEN_GRID_2_X, constants.SCREEN_GRID_Y):
+    for x_location in range(constants.SCREEN_GRID_2_X, constants.SCREEN_GRID_X):
         for y_location in range(constants.SCREEN_GRID_Y):
             background.tile(x_location, y_location, 5)
 
@@ -331,6 +332,10 @@ def game_scene():
     border.append(border_7)
     border_8 = stage.Sprite(image_bank_5, 6, constants.BORDER_LOCATION, 112)
     border.append(border_8)
+    
+    # Displays Jungle Joe and logs
+    jungle_joe_standing = stage.Sprite(image_bank_3, 15, constants.JUNGLE_JOE_START_X, constants.JUNGLE_JOE_START_Y)
+    jungle_joe.append(jungle_joe_standing)
 
     # Displays key sprites.
     a_button = stage.Sprite(image_bank_3, 12, constants.A_BUTTON, constants.BUTTON_HEIGHT)
@@ -345,6 +350,32 @@ def game_scene():
     sprites.append(up_arrow)
     down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(down_arrow)
+
+    # def jungle_joe_jumping():
+        # I know this is a function that is using variables outside of itself!
+        #   BUT this code is going to be used in multiple places.
+        # make jungle joe jump when you correctly destroy a key.
+
+    logs = []
+    for log_number in range(constants.TOTAL_NUMBER_OF_A_LOGS):
+        a_single_log = stage.Sprite(image_bank_3, 13, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+        logs.append(a_single_log)
+    
+    logs[0].move(constants.LOG_1_START_X, constants.LOG_1_START_Y)
+    logs[1].move(constants.RIGHT_LOG, constants.LOG_2_START_Y)
+
+    def show_logs():
+        if logs[0].x < 0: # meaning it is off the screen, so available to move on the screen
+            if logs[1].x > 0 and logs[1].x < 17:
+                logs[0].move(constants.RIGHT_LOG, constants.INCOMING_LOG_HEIGHT)
+            else:
+                logs[0].move(constants.LEFT_LOG, constants.INCOMING_LOG_HEIGHT)
+        if logs[1].x < 0: # meaning it is off the screen, so available to move on the screen
+            if logs[0].x > 0 and logs[0].x < 17:
+                logs[1].move(constants.RIGHT_LOG, constants.INCOMING_LOG_HEIGHT)
+            else:
+                logs[1].move(constants.LEFT_LOG, constants.INCOMING_LOG_HEIGHT)
+
     
     def show_abutton():
         # I know this is a function that is using variables outside of itself!
@@ -461,7 +492,7 @@ def game_scene():
     show_rightbutton()
 
     game = stage.Stage(ugame.display, constants.FPS)
-    game.layers = sprites + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + [background]
+    game.layers = jungle_joe + logs + border + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + sprites + [background]
 
     game.render_block()
 
@@ -520,7 +551,7 @@ def game_scene():
                         rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_rightbutton() # make it randomly show up at top again
         # redraw sprite list
-        game.render_sprites(sprites + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
+        game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
         game.tick()  # wait until refresh rate finishes
 
 def game_over_scene(final_score):
