@@ -310,7 +310,7 @@ def game_scene():
         for y_location in range(constants.SCREEN_GRID_Y):
             tile_picked = random.randint(2,3)
             background.tile(x_location, y_location, tile_picked)
-    for x_location in range(constants.SCREEN_GRID_2_X, constants.SCREEN_GRID_3_X):
+    for x_location in range(constants.SCREEN_GRID_2_X, constants.SCREEN_GRID_Y):
         for y_location in range(constants.SCREEN_GRID_Y):
             background.tile(x_location, y_location, 5)
 
@@ -333,17 +333,17 @@ def game_scene():
     border.append(border_8)
 
     # Displays key sprites.
-    a_button = stage.Sprite(image_bank_3, 12, constants.A_BUTTON_LOCATION, constants.BUTTON_HEIGHT)
+    a_button = stage.Sprite(image_bank_3, 12, constants.A_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(a_button)
-    b_button = stage.Sprite(image_bank_3, 11, constants.B_BUTTON_LOCATION, constants.BUTTON_HEIGHT)
+    b_button = stage.Sprite(image_bank_3, 11, constants.B_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(b_button)
-    left_arrow = stage.Sprite(image_bank_3, 8, constants.LEFT_ARROW_LOCATION, constants.BUTTON_HEIGHT)
+    left_arrow = stage.Sprite(image_bank_3, 8, constants.LEFT_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(left_arrow)
-    right_arrow = stage.Sprite(image_bank_3, 7, constants.RIGHT_ARROW_LOCATION, constants.BUTTON_HEIGHT)
+    right_arrow = stage.Sprite(image_bank_3, 7, constants.RIGHT_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(right_arrow)
-    up_arrow = stage.Sprite(image_bank_3, 10, constants.UP_ARROW_LOCATION, constants.BUTTON_HEIGHT)
+    up_arrow = stage.Sprite(image_bank_3, 10, constants.UP_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(up_arrow)
-    down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_ARROW_LOCATION, constants.BUTTON_HEIGHT)
+    down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(down_arrow)
     
     def show_abutton():
@@ -352,13 +352,13 @@ def game_scene():
         # make a button show up on screen in the x-axis
         for a_button_number in range(len(abutton)):
             if abutton[a_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
-                abutton[a_button_number].move(constants.A_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                abutton[a_button_number].move(constants.A_BUTTON, random.randint(constants.OFF_SCREEN_Y, 0 - constants.SPRITE_SIZE))
                 break
 
     # create buttons
     abutton = []
     for a_button_number in range(constants.TOTAL_NUMBER_OF_A_BUTTON):
-        a_single_abutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        a_single_abutton = stage.Sprite(image_bank_3, 6, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
         abutton.append(a_single_abutton)
 
     # current number of buttons that should be moving down screen, start with just 1
@@ -371,13 +371,13 @@ def game_scene():
         # make an button show up on screen in the x-axis
         for b_button_number in range(len(bbutton)):
             if bbutton[b_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
-                bbutton[b_button_number].move(constants.B_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                bbutton[b_button_number].move(constants.B_BUTTON, random.randint(constants.OFF_SCREEN_Y, 0 - constants.SPRITE_SIZE))
                 break
 
     # create buttons
     bbutton = []
     for b_button_number in range(constants.TOTAL_NUMBER_OF_B_BUTTON):
-        a_single_bbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        a_single_bbutton = stage.Sprite(image_bank_3, 5, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
         bbutton.append(a_single_bbutton)
 
     # current number of buttons that should be moving down screen, start with just 1
@@ -390,13 +390,13 @@ def game_scene():
         # make an button show up on screen in the x-axis
         for up_button_number in range(len(upbutton)):
             if upbutton[up_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
-                upbutton[up_button_number].move(constants.UP_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                upbutton[up_button_number].move(constants.UP_BUTTON, random.randint(constants.OFF_SCREEN_Y, 0 - constants.SPRITE_SIZE))
                 break
 
     # create buttons
     upbutton = []
     for up_button_number in range(constants.TOTAL_NUMBER_OF_UP_BUTTON):
-        a_single_upbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        a_single_upbutton = stage.Sprite(image_bank_3, 4, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
         upbutton.append(a_single_upbutton)
 
     # current number of buttons that should be moving down screen, start with just 1
@@ -409,13 +409,13 @@ def game_scene():
         # make an button show up on screen in the x-axis
         for down_button_number in range(len(downbutton)):
             if downbutton[down_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
-                downbutton[down_button_number].move(constants.DOWN_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                downbutton[down_button_number].move(constants.DOWN_BUTTON, random.randint(constants.OFF_SCREEN_Y, 0 - constants.SPRITE_SIZE))
                 break
 
     # create buttons
     downbutton = []
     for down_button_number in range(constants.TOTAL_NUMBER_OF_DOWN_BUTTON):
-        a_single_downbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        a_single_downbutton = stage.Sprite(image_bank_3, 3, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
         downbutton.append(a_single_downbutton)
 
     # current number of buttons that should be moving down screen, start with just 1
@@ -428,13 +428,13 @@ def game_scene():
         # make an button show up on screen in the x-axis
         for left_button_number in range(len(leftbutton)):
             if leftbutton[left_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
-                leftbutton[left_button_number].move(constants.LEFT_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                leftbutton[left_button_number].move(constants.LEFT_BUTTON, random.randint(constants.OFF_SCREEN_Y, 0 - constants.SPRITE_SIZE))
                 break
 
     # create buttons
     leftbutton = []
     for left_button_number in range(constants.TOTAL_NUMBER_OF_LEFT_BUTTON):
-        a_single_leftbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        a_single_leftbutton = stage.Sprite(image_bank_3, 2, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
         leftbutton.append(a_single_leftbutton)
 
     # current number of buttons that should be moving down screen, start with just 1
@@ -447,23 +447,28 @@ def game_scene():
         # make an button show up on screen in the x-axis
         for right_button_number in range(len(rightbutton)):
             if rightbutton[right_button_number].x < 0: # meaning it is off the screen, so available to move on the screen
-                rightbutton[right_button_number].move(constants.RIGHT_BUTTON, random.randint(0 + constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                rightbutton[right_button_number].move(constants.RIGHT_BUTTON, random.randint(constants.OFF_SCREEN_Y, 0 - constants.SPRITE_SIZE))
                 break
 
     # create buttons
     rightbutton = []
     for right_button_number in range(constants.TOTAL_NUMBER_OF_RIGHT_BUTTON):
-        a_single_rightbutton = stage.Sprite(image_bank_3, 9, constants.OFF_SCREEN_X, constants.OFF_SCREEN_X)
+        a_single_rightbutton = stage.Sprite(image_bank_3, 1, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
         rightbutton.append(a_single_rightbutton)
 
     # current number of button that should be moving down screen, start with just 1
     rightbutton_count = 1
     show_rightbutton()
 
+    game = stage.Stage(ugame.display, constants.FPS)
+    game.layers = sprites + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + [background]
+
+    game.render_block()
+
     # repeat forever, game loop
     while True:
         # get user input
-
+        keys = ugame.buttons.get_pressed()
         # update game logic
         rand_number = random.randint(0, 6+1)
 
@@ -515,13 +520,15 @@ def game_scene():
                         rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_rightbutton() # make it randomly show up at top again
         # redraw sprite list
-        pass # just a placeholder until you write the code
+        game.render_sprites(sprites + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
+        game.tick()  # wait until refresh rate finishes
 
 def game_over_scene(final_score):
     # this function is the game over scene
     # repeat forever, game loop
     while True:
         # get user input
+        keys = ugame.buttons.get_pressed()
         # update game logic
         # redraw sprite list
         if keys & ugame.K_SELECT != 0:  # Start button
