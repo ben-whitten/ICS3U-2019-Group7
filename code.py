@@ -303,6 +303,8 @@ def game_scene():
     border = []
     sprites = []
     jungle_joe = []
+    number_of_lives = 5
+    score = 0
     image_bank_5 = stage.Bank.from_bmp16("backgrounds.bmp")
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
 
@@ -583,16 +585,18 @@ def game_scene():
                 if abutton[a_button_number].x > 0: # meaning it is on the screen
                     abutton[a_button_number].move(abutton[a_button_number].x, abutton[a_button_number].y + constants.BUTTON_SPEED)
                     if abutton[a_button_number].y > constants.SCREEN_Y:
+                        number_of_lives = number_of_lives - 1
                         abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_abutton() # make it randomly show up at top again
             else:
                 break
-   
+
         for b_button_number in range(len(bbutton)):
             if bbutton_count > 0:
                 if bbutton[b_button_number].x > 0: # meaning it is on the screen
                     bbutton[b_button_number].move(bbutton[b_button_number].x, bbutton[b_button_number].y + constants.BUTTON_SPEED)
                     if bbutton[b_button_number].y > constants.SCREEN_Y:
+                        number_of_lives = number_of_lives - 1
                         bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_bbutton() # make it randomly show up at top again
             else:
@@ -603,36 +607,40 @@ def game_scene():
                 if upbutton[up_button_number].x > 0: # meaning it is on the screen
                     upbutton[up_button_number].move(upbutton[up_button_number].x, upbutton[up_button_number].y + constants.BUTTON_SPEED)
                     if upbutton[up_button_number].y > constants.SCREEN_Y:
+                        number_of_lives = number_of_lives - 1
                         upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_upbutton() # make it randomly show up at top again
             else:
                 break
-   
+
         for down_button_number in range(len(downbutton)):
             if downbutton_count > 0:
                 if downbutton[down_button_number].x > 0: # meaning it is on the screen
                     downbutton[down_button_number].move(downbutton[down_button_number].x, downbutton[down_button_number].y + constants.BUTTON_SPEED)
                     if downbutton[down_button_number].y > constants.SCREEN_Y:
+                        number_of_lives = number_of_lives - 1
                         downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_downbutton() # make it randomly show up at top again
             else:
                 break
-   
+
         for left_button_number in range(len(leftbutton)):
             if leftbutton_count > 0:
                 if leftbutton[left_button_number].x > 0: # meaning it is on the screen
                     leftbutton[left_button_number].move(leftbutton[left_button_number].x, leftbutton[left_button_number].y + constants.BUTTON_SPEED)
                     if leftbutton[left_button_number].y > constants.SCREEN_Y:
+                        number_of_lives = number_of_lives - 1
                         leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_leftbutton() # make it randomly show up at top again
             else:
                 break
-    
+
         for right_button_number in range(len(rightbutton)):
             if rightbutton_count > 0:
                 if rightbutton[right_button_number].x > 0: # meaning it is on the screen
                     rightbutton[right_button_number].move(rightbutton[right_button_number].x, rightbutton[right_button_number].y + constants.BUTTON_SPEED)
                     if rightbutton[right_button_number].y > constants.SCREEN_Y:
+                        number_of_lives = number_of_lives - 1
                         rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_rightbutton() # make it randomly show up at top again
             else:
@@ -664,15 +672,17 @@ def game_scene():
             if logs[log_number].y > constants.SCREEN_Y:
                 logs[log_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
 
+        if number_of_lives == 0:
+            game_over_scene(score)
+
         # redraw sprite list
         game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
         game.tick()  # wait until refresh rate finishes
 
-def game_over_scene():
+def game_over_scene(final_score):
     # this function is the game over scene
     # an image bank for CircuitPython
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
-    final_score = 69
     # sets the background to image 0 in the bank
     background = stage.Grid(image_bank_3, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
 
