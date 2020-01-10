@@ -635,6 +635,8 @@ def game_scene():
                     if rightbutton[right_button_number].y > constants.SCREEN_Y:
                         rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_rightbutton() # make it randomly show up at top again
+            else:
+                break
 
         if jungle_joe_jumping.x > 0:
             for log_number in range(len(logs)):
