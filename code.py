@@ -502,29 +502,6 @@ def game_scene():
     rightbutton_count = 0
     show_rightbutton()
 
-    def random_amount():
-        rand_amount_number = random.randint(1, 2)
-        for loop_counter in range(rand_amount_number):
-            random_selection = random.randint(1, 6)
-            if random_selection == 1:
-                abutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 2:
-                bbutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 3:
-                upbutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 4:
-                downbutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 5:
-                leftbutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 6:
-                rightbutton_count = 1
-                loop_counter = loop_counter + 1
-
     game = stage.Stage(ugame.display, constants.FPS)
     game.layers = jungle_joe + logs + border + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + sprites + [background]
 
