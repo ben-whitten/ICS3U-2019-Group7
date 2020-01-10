@@ -261,7 +261,7 @@ def main_menu_scene():
     Show_clouds()
     Show_clouds()
 
-    game = stage.Stage(ugame.display, 60)
+    game = stage.Stage(ugame.display, constants.FPS)
     # set the layers, items show up in order
     game.layers = text + clouds + [background]
     game.layers = text + sprites + clouds + sun + [background]
@@ -306,6 +306,13 @@ def game_scene():
     image_bank_5 = stage.Bank.from_bmp16("backgrounds.bmp")
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
 
+    a_button = constants.button_state["button_up"]
+    b_button = constants.button_state["button_up"]
+    up_button = constants.button_state["button_up"]
+    down_button = constants.button_state["button_up"]
+    left_button = constants.button_state["button_up"]
+    right_button = constants.button_state["button_up"]
+
     background = stage.Grid(image_bank_5, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
     for x_location in range(constants.SCREEN_GRID_2_X):
         for y_location in range(constants.SCREEN_GRID_Y):
@@ -340,10 +347,10 @@ def game_scene():
     jungle_joe.append(jungle_joe_jumping)
 
     # Displays key sprites.
-    a_button = stage.Sprite(image_bank_3, 12, constants.A_BUTTON, constants.BUTTON_HEIGHT)
-    sprites.append(a_button)
-    b_button = stage.Sprite(image_bank_3, 11, constants.B_BUTTON, constants.BUTTON_HEIGHT)
-    sprites.append(b_button)
+    a_button_sprite = stage.Sprite(image_bank_3, 12, constants.A_BUTTON, constants.BUTTON_HEIGHT)
+    sprites.append(a_button_sprite)
+    b_button_sprite = stage.Sprite(image_bank_3, 11, constants.B_BUTTON, constants.BUTTON_HEIGHT)
+    sprites.append(b_button_sprite)
     left_arrow = stage.Sprite(image_bank_3, 8, constants.LEFT_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(left_arrow)
     right_arrow = stage.Sprite(image_bank_3, 7, constants.RIGHT_BUTTON, constants.BUTTON_HEIGHT)
@@ -416,7 +423,7 @@ def game_scene():
         bbutton.append(a_single_bbutton)
 
     # current number of buttons that should be moving down screen, start with just 1
-    bbutton_count = 1
+    bbutton_count = 0
     show_bbutton()
 
     def show_upbutton():
@@ -435,7 +442,7 @@ def game_scene():
         upbutton.append(a_single_upbutton)
 
     # current number of buttons that should be moving down screen, start with just 1
-    upbutton_count = 1
+    upbutton_count = 0
     show_upbutton()
 
     def show_downbutton():
@@ -454,7 +461,7 @@ def game_scene():
         downbutton.append(a_single_downbutton)
 
     # current number of buttons that should be moving down screen, start with just 1
-    downbutton_count = 1
+    downbutton_count = 0
     show_downbutton()
 
     def show_leftbutton():
@@ -473,7 +480,7 @@ def game_scene():
         leftbutton.append(a_single_leftbutton)
 
     # current number of buttons that should be moving down screen, start with just 1
-    leftbutton_count = 1
+    leftbutton_count = 0
     show_leftbutton()
 
     def show_rightbutton():
@@ -492,7 +499,7 @@ def game_scene():
         rightbutton.append(a_single_rightbutton)
 
     # current number of button that should be moving down screen, start with just 1
-    rightbutton_count = 1
+    rightbutton_count = 0
     show_rightbutton()
 
     game = stage.Stage(ugame.display, constants.FPS)
@@ -505,50 +512,124 @@ def game_scene():
         # get user input
         keys = ugame.buttons.get_pressed()
         # update game logic
-        rand_number = random.randint(0, 6+1)
+        if keys & ugame.K_X != 0:
+            if a_button == constants.button_state["button_up"]:
+                a_button = constants.button_state["button_just_pressed"]
+            elif a_button == constants.button_state["button_just_pressed"]:
+                a_button = constants.button_state["button_still_pressed"]
+        else:
+            if a_button == constants.button_state["button_still_pressed"]:
+                a_button = constants.button_state["button_released"]
+            else:
+                a_button = constants.button_state["button_up"]
 
-        if rand_number == 1:
-            for a_button_number in range(len(abutton)):
+        if keys & ugame.K_O != 0:
+            if b_button == constants.button_state["button_up"]:
+                b_button = constants.button_state["button_just_pressed"]
+            elif b_button == constants.button_state["button_just_pressed"]:
+                b_button = constants.button_state["button_still_pressed"]
+        else:
+            if b_button == constants.button_state["button_still_pressed"]:
+                b_button = constants.button_state["button_released"]
+            else:
+                b_button = constants.button_state["button_up"]
+
+        if keys & ugame.K_UP != 0:
+            if up_button == constants.button_state["button_up"]:
+                up_button = constants.button_state["button_just_pressed"]
+            elif up_button == constants.button_state["button_just_pressed"]:
+                up_button = constants.button_state["button_still_pressed"]
+        else:
+            if up_button == constants.button_state["button_still_pressed"]:
+                up_button = constants.button_state["button_released"]
+            else:
+                up_button = constants.button_state["button_up"]
+
+        if keys & ugame.K_DOWN != 0:
+            if down_button == constants.button_state["button_up"]:
+                down_button = constants.button_state["button_just_pressed"]
+            elif down_button == constants.button_state["button_just_pressed"]:
+                down_button = constants.button_state["button_still_pressed"]
+        else:
+            if down_button == constants.button_state["button_still_pressed"]:
+                down_button = constants.button_state["button_released"]
+            else:
+                down_button = constants.button_state["button_up"]
+
+        if keys & ugame.K_LEFT != 0:
+            if left_button == constants.button_state["button_up"]:
+                left_button = constants.button_state["button_just_pressed"]
+            elif left_button == constants.button_state["button_just_pressed"]:
+                left_button = constants.button_state["button_still_pressed"]
+        else:
+            if left_button == constants.button_state["button_still_pressed"]:
+                left_button = constants.button_state["button_released"]
+            else:
+                left_button = constants.button_state["button_up"]
+
+        if keys & ugame.K_RIGHT != 0:
+            if right_button == constants.button_state["button_up"]:
+                right_button = constants.button_state["button_just_pressed"]
+            elif right_button == constants.button_state["button_just_pressed"]:
+                right_button = constants.button_state["button_still_pressed"]
+        else:
+            if right_button == constants.button_state["button_still_pressed"]:
+                right_button = constants.button_state["button_released"]
+            else:
+                right_button = constants.button_state["button_up"]
+
+        for a_button_sprite_number in range(len(abutton)):
+            if abutton_count > 0:
                 if abutton[a_button_number].x > 0: # meaning it is on the screen
                     abutton[a_button_number].move(abutton[a_button_number].x, abutton[a_button_number].y + constants.BUTTON_SPEED)
                     if abutton[a_button_number].y > constants.SCREEN_Y:
                         abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_abutton() # make it randomly show up at top again
-
-        if rand_number == 2:
-            for b_button_number in range(len(bbutton)):
+            else:
+                break
+   
+        for b_button_number in range(len(bbutton)):
+            if bbutton_count > 0:
                 if bbutton[b_button_number].x > 0: # meaning it is on the screen
                     bbutton[b_button_number].move(bbutton[b_button_number].x, bbutton[b_button_number].y + constants.BUTTON_SPEED)
                     if bbutton[b_button_number].y > constants.SCREEN_Y:
                         bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_bbutton() # make it randomly show up at top again
+            else:
+                break
 
-        if rand_number == 3:
-            for up_button_number in range(len(upbutton)):
+        for up_button_number in range(len(upbutton)):
+            if upbutton_count > 0:
                 if upbutton[up_button_number].x > 0: # meaning it is on the screen
                     upbutton[up_button_number].move(upbutton[up_button_number].x, upbutton[up_button_number].y + constants.BUTTON_SPEED)
                     if upbutton[up_button_number].y > constants.SCREEN_Y:
                         upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_upbutton() # make it randomly show up at top again
-
-        if rand_number == 4:
-            for down_button_number in range(len(downbutton)):
+            else:
+                break
+   
+        for down_button_number in range(len(downbutton)):
+            if downbutton_count > 0:
                 if downbutton[down_button_number].x > 0: # meaning it is on the screen
                     downbutton[down_button_number].move(downbutton[down_button_number].x, downbutton[down_button_number].y + constants.BUTTON_SPEED)
                     if downbutton[down_button_number].y > constants.SCREEN_Y:
                         downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_downbutton() # make it randomly show up at top again
-
-        if rand_number == 5:
-            for left_button_number in range(len(leftbutton)):
+            else:
+                break
+   
+        for left_button_number in range(len(leftbutton)):
+            if leftbutton_count > 0:
                 if leftbutton[left_button_number].x > 0: # meaning it is on the screen
                     leftbutton[left_button_number].move(leftbutton[left_button_number].x, leftbutton[left_button_number].y + constants.BUTTON_SPEED)
                     if leftbutton[left_button_number].y > constants.SCREEN_Y:
                         leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_leftbutton() # make it randomly show up at top again
-
-        if rand_number == 6:
-            for right_button_number in range(len(rightbutton)):
+            else:
+                break
+    
+        for right_button_number in range(len(rightbutton)):
+            if rightbutton_count > 0:
                 if rightbutton[right_button_number].x > 0: # meaning it is on the screen
                     rightbutton[right_button_number].move(rightbutton[right_button_number].x, rightbutton[right_button_number].y + constants.BUTTON_SPEED)
                     if rightbutton[right_button_number].y > constants.SCREEN_Y:
@@ -585,11 +666,11 @@ def game_scene():
         game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
         game.tick()  # wait until refresh rate finishes
 
-def game_over_scene(final_score):
-   # this function is the game over scene
+def game_over_scene():
+    # this function is the game over scene
     # an image bank for CircuitPython
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
-
+    final_score = 69
     # sets the background to image 0 in the bank
     background = stage.Grid(image_bank_3, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
 
