@@ -555,8 +555,8 @@ def game_scene():
                         rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                         show_rightbutton() # make it randomly show up at top again
 
-        if jungle_joe_jumping.x > 0
-            for log_number in range(constants.TOTAL_NUMBER_OF_A_LOGS):
+        if jungle_joe_jumping.x > 0:
+            for log_number in range(len(logs)):
                 if logs[log_number].x > 0 and logs[log_number].x < 20 and logs[log_number].y < 40:
                     if jungle_joe_jumping.x > logs[log_number].x:
                         jungle_joe_jumping.move(jungle_joe_jumping.x - constants.JUNGLE_JOE_X_SPEED, jungle_joe_jumping.y)
@@ -567,14 +567,19 @@ def game_scene():
                         jungle_joe_jumping.move(jungle_joe_jumping.x - constants.JUNGLE_JOE_X_SPEED, jungle_joe_jumping.y)
                     if jungle_joe_jumping.y > logs[log_number].y - constants.SPRITE_SIZE:
                         jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
-                if jungle_joe_jumping.x = logs[log_number].x and jungle_joe_jumping.y = logs[log_number].y - constants.SPRITE_SIZE and jungle_joe_jumping.y < 40:
-                    jungle_joe_standing.move(jungle_joe_jumping.x, jungle_joe_jumping.y)
-                    jungle_joe_jumping.move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                if jungle_joe_jumping.y < 40:
+                    if jungle_joe_jumping.x == logs[log_number].x and jungle_joe_jumping.y == logs[log_number].y - constants.SPRITE_SIZE:
+                        jungle_joe_standing.move(jungle_joe_jumping.x, jungle_joe_jumping.y)
+                        jungle_joe_jumping.move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
 
         if jungle_joe_standing.y > 97:
             jungle_joe_standing.move(jungle_joe_standing.x, jungle_joe_standing.y + constants.SCROLL_SPEED)
             logs[0].move(logs[0].x, logs[0].y + constants.SCROLL_SPEED)
             logs[1].move(logs[0].x, logs[1].y + constants.SCROLL_SPEED)
+
+        for log_number in range(constants.TOTAL_NUMBER_OF_A_LOGS):
+            if logs[log_number].y > constants.SCREEN_Y:
+                logs[log_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
 
         # redraw sprite list
         game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
