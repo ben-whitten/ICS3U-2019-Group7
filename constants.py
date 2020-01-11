@@ -1,3 +1,25 @@
+#!/usr/bin/env python3
+
+# Created by: Mr. Coxall
+# Created on: October 2019
+# This constants file is CircuitPython Stage game
+
+# CircuitPython screen size is 160x128 and sprites are 16x16
+SCREEN_X = 160
+SCREEN_Y = 128
+SCREEN_GRID_X = 16
+SCREEN_GRID_Y = 8
+SPRITE_SIZE = 16
+TOTAL_CLOUDS = 5
+CLOUD_SPEED = 0.25
+OFF_LEFT_SCREEN = -1 * SPRITE_SIZE
+OFF_TOP_SCREEN = -1 * SPRITE_SIZE
+OFF_BOTTOM_SCREEN = SCREEN_Y + SPRITE_SIZE
+OFF_SCREEN_X = -100
+OFF_SCREEN_Y = -100
+A_BUTTON = 144
+B_BUTTON = 128
+UP_BUTTON = 96
 DOWN_BUTTON = 112
 LEFT_BUTTON = 64
 RIGHT_BUTTON = 80
