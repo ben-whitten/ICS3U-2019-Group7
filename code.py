@@ -169,6 +169,8 @@ def main_menu_scene():
     text = []
     sprites = []
     sun = []
+    game_mode_text = []
+    game_mode = 0
 
     image_bank_5 = stage.Bank.from_bmp16("Backgrounds.bmp")
     image_bank_5 = stage.Bank.from_bmp16("backgrounds.bmp")
@@ -177,32 +179,25 @@ def main_menu_scene():
     # sets the background to image 0 in the bank
     background = stage.Grid(image_bank_5, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
 
-    background.tile(2, 8, 1)
-    background.tile(2, 8, 2)
-    background.tile(2, 8, 3)
-    background.tile(2, 8, 4)
-    background.tile(2, 8, 5)
-    background.tile(2, 8, 6)
-    background.tile(2, 8, 7)
-    background.tile(2, 8, 8)
-    background.tile(2, 8, 9)
-    background.tile(2, 8, 10)
+    for x_location in range(constants.SCREEN_GRID_X):
+        for y_location in range(constants.TREE_TOP_GRID_Y, constants.TREE_TOP_GRID_2_Y):
+            background.tile(x_location, y_location, 1)
+    for x_location in range(constants.SCREEN_GRID_X):
+        for y_location in range(constants.BLACK_BACK_GRID_Y, constants.BLACK_BACK_GRID_2_Y):
+            background.tile(x_location, y_location, 7)
 
     text_1 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
-    text_1.move(40, 35)
-    text_1.move(40, 48)
+    text_1.move(40, 20)
     text_1.text("JUNGLE JOE")
     text.append(text_1)
 
     text_2 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
-    text_2.move(40, 45)
-    text_2.move(40, 58)
+    text_2.move(40, 30)
     text_2.text("& SNAKOB'S")
     text.append(text_2)
 
     text_3 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
-    text_3.move(25, 55)
-    text_3.move(25, 68)
+    text_3.move(25, 40)
     text_3.text("BONGO BANANZA!")
     text.append(text_3)
 
@@ -211,28 +206,17 @@ def main_menu_scene():
     text_4.move(35, 118)
     text_4.text("PRESS START!")
     text.append(text_4)
+    
+    game_mode_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    game_mode_text.clear()
+    game_mode_text.cursor(0, 0)
+    game_mode_text.move(10, 100)
+    game_mode_text.text("GAME MODE: NORMAL")
+    text.append(game_mode_text)
 
-    # Displays the tree tops
-    tree_top_1 = stage.Sprite(image_bank_5, 1, 0, 112)
-    sprites.append(tree_top_1)
-    tree_top_2 = stage.Sprite(image_bank_5, 1, 16, 112)
-    sprites.append(tree_top_2)
-    tree_top_3 = stage.Sprite(image_bank_5, 1, 32, 112)
-    sprites.append(tree_top_3)
-    tree_top_4 = stage.Sprite(image_bank_5, 1, 48, 112)
-    sprites.append(tree_top_4)
-    tree_top_5 = stage.Sprite(image_bank_5, 1, 64, 112)
-    sprites.append(tree_top_5)
-    tree_top_6 = stage.Sprite(image_bank_5, 1, 80, 112)
-    sprites.append(tree_top_6)
-    tree_top_7 = stage.Sprite(image_bank_5, 1, 96, 112)
-    sprites.append(tree_top_7)
-    tree_top_8 = stage.Sprite(image_bank_5, 1, 112, 112)
-    sprites.append(tree_top_8)
-    tree_top_9 = stage.Sprite(image_bank_5, 1, 128, 112)
-    sprites.append(tree_top_9)
-    tree_top_10 = stage.Sprite(image_bank_5, 1, 144, 112)
-    sprites.append(tree_top_10)
+    a_button = constants.button_state["button_up"]
+    b_button = constants.button_state["button_up"]
+
     # Displays the sun
     sun_top_left = stage.Sprite(image_bank_5, 11, 128, 0)
     sun.append(sun_top_left)
@@ -243,7 +227,7 @@ def main_menu_scene():
     sun_bottom_right = stage.Sprite(image_bank_5, 9, 144, 16)
     sun.append(sun_bottom_right)
     # Displays Jungle Joe
-    jungle_joe = stage.Sprite(image_bank_3, 15, 71, 98)
+    jungle_joe = stage.Sprite(image_bank_3, 15, 71, 66)
     sprites.append(jungle_joe)
 
     clouds = []
@@ -254,7 +238,7 @@ def main_menu_scene():
     def Show_clouds():
         for cloud_number in range(len(clouds)):
             if clouds[cloud_number].y < 0:
-                clouds[cloud_number].move(constants.OFF_LEFT_SCREEN, random.randint(0 - constants.SPRITE_SIZE, constants.SCREEN_Y - constants.SPRITE_SIZE))
+                clouds[cloud_number].move(constants.OFF_LEFT_SCREEN, random.randint(0 - constants.SPRITE_SIZE, constants.CLOUD_SPAWN_Y - constants.SPRITE_SIZE))
                 break
 
     cloud_count = 6
@@ -263,7 +247,6 @@ def main_menu_scene():
 
     game = stage.Stage(ugame.display, constants.FPS)
     # set the layers, items show up in order
-    game.layers = text + clouds + [background]
     game.layers = text + sprites + clouds + sun + [background]
     # render the background and inital location of sprite list
     # most likely you will only render background once per scene
@@ -273,12 +256,49 @@ def main_menu_scene():
 
     while True:
         # get user input
-
         keys = ugame.buttons.get_pressed()
+
         #print(keys)
+        if keys & ugame.K_X != 0:
+            if a_button == constants.button_state["button_up"]:
+                a_button = constants.button_state["button_just_pressed"]
+            elif a_button == constants.button_state["button_just_pressed"]:
+                a_button = constants.button_state["button_still_pressed"]
+        else:
+            if a_button == constants.button_state["button_still_pressed"]:
+                a_button = constants.button_state["button_released"]
+            else:
+                a_button = constants.button_state["button_up"]
+
+        if keys & ugame.K_O != 0:
+            if b_button == constants.button_state["button_up"]:
+                b_button = constants.button_state["button_just_pressed"]
+            elif b_button == constants.button_state["button_just_pressed"]:
+                b_button = constants.button_state["button_still_pressed"]
+        else:
+            if b_button == constants.button_state["button_still_pressed"]:
+                b_button = constants.button_state["button_released"]
+            else:
+                b_button = constants.button_state["button_up"]
+
+        if b_button == constants.button_state["button_just_pressed"] or a_button == constants.button_state["button_just_pressed"]:
+            if game_mode == 0:
+                game_mode = 1
+                game_mode_text.clear()
+                game_mode_text.cursor(0, 0)
+                game_mode_text.move(7, 100)
+                game_mode_text.text("GAME MODE: ENDLESS")
+                game.render_block()
+            elif game_mode == 1:
+                game_mode = 0
+                game_mode_text.clear()
+                game_mode_text.cursor(0, 0)
+                game_mode_text.move(10, 100)
+                game_mode_text.text("GAME MODE: NORMAL")
+                game.render_block()
 
         if keys & ugame.K_START != 0:  # Start button
-            game_scene()
+            game_scene(game_mode)
 
         # update game logic
         for cloud_number in range (len(clouds)):
@@ -298,7 +318,7 @@ def main_menu_scene():
         game.render_sprites(clouds)
         game.tick()
 
-def game_scene():
+def game_scene(game_mode):
     # this function is the game scene
     border = []
     sprites = []
@@ -321,6 +341,11 @@ def game_scene():
     for x_location in range(constants.SCREEN_GRID_2_X, constants.SCREEN_GRID_X):
         for y_location in range(constants.SCREEN_GRID_Y):
             background.tile(x_location, y_location, 5)
+
+    # bongo_sound = open("jungle_japes.wav", 'rb')
+    # sound = ugame.audio
+    # sound.stop()
+    # sound.mute(False)
 
     # Displays the border.
     border_1 = stage.Sprite(image_bank_5, 6, constants.BORDER_LOCATION, 0)
@@ -370,9 +395,8 @@ def game_scene():
         # update the score when you correctly hit a button or when you hit a milestone
         score = score + 1
         if score % 10 == 0:
-            number_of_lives += 1
-            if number_of_lives > 5:
-                number_of_lives == 5
+            if number_of_lives < 5:
+                number_of_lives += 1
             button_speed += constants.SPEED_INCREASE
             jungle_joe[1].move(jungle_joe[0].x, jungle_joe[0].y)
             jungle_joe[0].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
@@ -540,29 +564,6 @@ def game_scene():
     rightbutton_count = 0
     show_rightbutton()
 
-    def random_amount():
-        rand_amount_number = random.randint(1, 2)
-        for loop_counter in range(rand_amount_number):
-            random_selection = random.randint(1, 6)
-            if random_selection == 1:
-                abutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 2:
-                bbutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 3:
-                upbutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 4:
-                downbutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 5:
-                leftbutton_count = 1
-                loop_counter = loop_counter + 1
-            elif random_selection == 6:
-                rightbutton_count = 1
-                loop_counter = loop_counter + 1
-
     game = stage.Stage(ugame.display, constants.FPS)
     game.layers = jungle_joe + logs + border + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + sprites + [background]
 
@@ -645,8 +646,9 @@ def game_scene():
                     abutton[a_button_number].move(abutton[a_button_number].x, abutton[a_button_number].y + button_speed)
                     if abutton[a_button_number].y > constants.SCREEN_Y:
                         abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                        number_of_lives = number_of_lives - 1
                         show_abutton() # make it randomly show up at top again
+                        if game_mode == 0:
+                            number_of_lives = number_of_lives - 1
 
         for b_button_number in range(len(bbutton)):
             if bbutton_count > 0:
@@ -654,8 +656,9 @@ def game_scene():
                     bbutton[b_button_number].move(bbutton[b_button_number].x, bbutton[b_button_number].y + button_speed)
                     if bbutton[b_button_number].y > constants.SCREEN_Y:
                         bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                        number_of_lives = number_of_lives - 1
                         show_bbutton() # make it randomly show up at top again
+                        if game_mode == 0:
+                            number_of_lives = number_of_lives - 1
 
         for up_button_number in range(len(upbutton)):
             if upbutton_count > 0:
@@ -663,8 +666,9 @@ def game_scene():
                     upbutton[up_button_number].move(upbutton[up_button_number].x, upbutton[up_button_number].y + button_speed)
                     if upbutton[up_button_number].y > constants.SCREEN_Y:
                         upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                        number_of_lives = number_of_lives - 1
                         show_upbutton() # make it randomly show up at top again
+                        if game_mode == 0:
+                            number_of_lives = number_of_lives - 1
 
         for down_button_number in range(len(downbutton)):
             if downbutton_count > 0:
@@ -672,8 +676,9 @@ def game_scene():
                     downbutton[down_button_number].move(downbutton[down_button_number].x, downbutton[down_button_number].y + button_speed)
                     if downbutton[down_button_number].y > constants.SCREEN_Y:
                         downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                        number_of_lives = number_of_lives - 1
                         show_downbutton() # make it randomly show up at top again
+                        if game_mode == 0:
+                            number_of_lives = number_of_lives - 1
 
         for left_button_number in range(len(leftbutton)):
             if leftbutton_count > 0:
@@ -681,8 +686,9 @@ def game_scene():
                     leftbutton[left_button_number].move(leftbutton[left_button_number].x, leftbutton[left_button_number].y + button_speed)
                     if leftbutton[left_button_number].y > constants.SCREEN_Y:
                         leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                        number_of_lives = number_of_lives - 1
                         show_leftbutton() # make it randomly show up at top again
+                        if game_mode == 0:
+                            number_of_lives = number_of_lives - 1
 
         for right_button_number in range(len(rightbutton)):
             if rightbutton_count > 0:
@@ -690,8 +696,9 @@ def game_scene():
                     rightbutton[right_button_number].move(rightbutton[right_button_number].x, rightbutton[right_button_number].y + button_speed)
                     if rightbutton[right_button_number].y > constants.SCREEN_Y:
                         rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                        number_of_lives = number_of_lives - 1
                         show_rightbutton() # make it randomly show up at top again
+                        if game_mode == 0:
+                            number_of_lives = number_of_lives - 1
 
         for a_button_number in range(len(abutton)):
             if abutton[a_button_number].x > 0 and a_button == constants.button_state["button_just_pressed"]:
@@ -725,7 +732,7 @@ def game_scene():
                             rightbutton_count = 1
                             loop_counter = loop_counter + 1
                     show_abutton()
-            
+
 
         for b_button_number in range(len(bbutton)):
             if bbutton[b_button_number].x > 0 and b_button == constants.button_state["button_just_pressed"]:
@@ -924,6 +931,9 @@ def game_scene():
 
 def game_over_scene(final_score):
     # this function is the game over scene
+    option = 0
+    # This is so it can get into the game scene. Only one option as you cant get here on endless
+    game_mode = 0
     # an image bank for CircuitPython
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
     # sets the background to image 0 in the bank
@@ -941,10 +951,22 @@ def game_over_scene(final_score):
     text1.text("GAME OVER")
     text.append(text1)
 
-    text2 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
-    text2.move(32, 110)
-    text2.text("PRESS SELECT")
-    text.append(text2)
+    menu_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    menu_text.clear()
+    menu_text.cursor(0, 0)
+    menu_text.move(constants.MENU_LOCATION_X, constants.MENU_LOCATION_Y)
+    menu_text.text("   MENU   ")
+    text.append(menu_text)
+
+    retry_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    retry_text.clear()
+    retry_text.cursor(0, 0)
+    retry_text.move(constants.RETRY_LOCATION_X, constants.RETRY_LOCATION_Y)
+    retry_text.text("<< RETRY >>")
+    text.append(retry_text)
+
+    up_button = constants.button_state["button_up"]
+    down_button = constants.button_state["button_up"]
 
     # create a stage for the background to show up on
     #   and set the frame rate to 60fps
@@ -958,16 +980,66 @@ def game_over_scene(final_score):
     # repeat forever, game loop
     while True:
         # get user input
+        keys = ugame.buttons.get_pressed()
+
+        if keys & ugame.K_UP != 0:
+            if up_button == constants.button_state["button_up"]:
+                up_button = constants.button_state["button_just_pressed"]
+            elif up_button == constants.button_state["button_just_pressed"]:
+                up_button = constants.button_state["button_still_pressed"]
+        else:
+            if up_button == constants.button_state["button_still_pressed"]:
+                up_button = constants.button_state["button_released"]
+            else:
+                up_button = constants.button_state["button_up"]
+
+        if keys & ugame.K_DOWN != 0:
+            if down_button == constants.button_state["button_up"]:
+                down_button = constants.button_state["button_just_pressed"]
+            elif down_button == constants.button_state["button_just_pressed"]:
+                down_button = constants.button_state["button_still_pressed"]
+        else:
+            if down_button == constants.button_state["button_still_pressed"]:
+                down_button = constants.button_state["button_released"]
+            else:
+                down_button = constants.button_state["button_up"]
 
         # update game logic
-        keys = ugame.buttons.get_pressed()
-        #print(keys)
 
-        if keys & ugame.K_SELECT != 0:  # Start button
-            keys = 0
-            main_menu_scene()
-            #break
+        #print(keys)
+        if down_button == constants.button_state["button_just_pressed"] or up_button == constants.button_state["button_just_pressed"]:
+            if option == 0:
+                option = 1
+                menu_text.clear()
+                menu_text.cursor(0, 0)
+                menu_text.move(constants.MENU_LOCATION_X, constants.MENU_LOCATION_Y)
+                menu_text.text("<< MENU >>")
+                game.render_block()
+                retry_text.clear()
+                retry_text.cursor(0, 0)
+                retry_text.move(constants.RETRY_LOCATION_X, constants.RETRY_LOCATION_Y)
+                retry_text.text("   RETRY   ")
+                game.render_block()
+            elif option == 1:
+                option = 0
+                retry_text.clear()
+                retry_text.cursor(0, 0)
+                retry_text.move(constants.RETRY_LOCATION_X, constants.RETRY_LOCATION_Y)
+                retry_text.text("<< RETRY >>")
+                game.render_block()
+                menu_text.clear()
+                menu_text.cursor(0, 0)
+                menu_text.move(constants.MENU_LOCATION_X, constants.MENU_LOCATION_Y)
+                menu_text.text("   MENU   ")
+                game.render_block()
+
+        if keys & ugame.K_X != 0 or keys & ugame.K_O != 0 or keys & ugame.K_START != 0 or keys & ugame.K_SELECT != 0:  # A, B, start or select
+            if option == 0:
+                game_scene(game_mode)
+            elif option == 1:
+                main_menu_scene()
+
 
 if __name__ == "__main__":
     blank_white_reset_scene()
-    
+   
