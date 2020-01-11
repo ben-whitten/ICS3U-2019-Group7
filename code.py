@@ -187,6 +187,11 @@ def main_menu_scene():
         for y_location in range(constants.BLACK_BACK_GRID_Y, constants.BLACK_BACK_GRID_2_Y):
             background.tile(x_location, y_location, 7)
 
+    coin_sound = open("coin.wav", 'rb')
+    sound = ugame.audio
+    sound.stop()
+    sound.mute(False)
+
     text_1 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     text_1.move(40, 20)
     text_1.text("JUNGLE JOE")
@@ -236,6 +241,8 @@ def main_menu_scene():
     # Displays Jungle Joe
     jungle_joe = stage.Sprite(image_bank_3, 15, 71, 66)
     sprites.append(jungle_joe)
+    jungle_joe_jumping = stage.Sprite(image_bank_3, 14, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+    sprites.append(jungle_joe_jumping)
 
     clouds = []
     for cloud_number in range(constants.TOTAL_CLOUDS):
@@ -254,7 +261,7 @@ def main_menu_scene():
 
     game = stage.Stage(ugame.display, constants.FPS)
     # set the layers, items show up in order
-    game.layers = text + sprites + clouds + sun + [background]
+    game.layers = sprites + text + clouds + sun + [background]
     # render the background and inital location of sprite list
     # most likely you will only render background once per scene
     # wait until refresh rate finishes
@@ -375,7 +382,22 @@ def main_menu_scene():
         if (start_button == constants.button_state["button_just_pressed"] or select_button == constants.button_state["button_just_pressed"]
             or a_button == constants.button_state["button_just_pressed"] or b_button == constants.button_state["button_just_pressed"]):
             if option == 0:
-                game_scene(game_mode)
+                sound.play(coin_sound)
+                jungle_joe_jumping.move(jungle_joe.x, jungle_joe.y)
+                jungle_joe.move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                while True:
+                    if jungle_joe_jumping.y > 50:
+                        jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y - constants.JUNGLE_JOE_Y_SPEED)
+                        game.render_sprites(sprites)
+                        game.tick()
+                    else:
+                        break
+                while True:
+                    jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
+                    game.render_sprites(sprites)
+                    game.tick()
+                    if jungle_joe_jumping.y > constants.SCREEN_Y:
+                        game_scene(game_mode)
             elif option == 1:
                 if game_mode == 1:
                     game_mode = 0
@@ -434,10 +456,10 @@ def game_scene(game_mode):
         for y_location in range(constants.SCREEN_GRID_Y):
             background.tile(x_location, y_location, 5)
 
-    # bongo_sound = open("jungle_japes.wav", 'rb')
-    # sound = ugame.audio
-    # sound.stop()
-    # sound.mute(False)
+    bongo_sound = open("bongo.wav", 'rb')
+    sound = ugame.audio
+    sound.stop()
+    sound.mute(False)
 
     # Displays the border.
     border_1 = stage.Sprite(image_bank_5, 6, constants.BORDER_LOCATION, 0)
@@ -800,6 +822,7 @@ def game_scene(game_mode):
                                      a_button_sprite.x, a_button_sprite.y + 7):
                         # when you press designated button when it is on top of sprite
                     abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    sound.play(bongo_sound)
                     score_update()
                     abutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -834,6 +857,7 @@ def game_scene(game_mode):
                                      b_button_sprite.x, b_button_sprite.y + 7):
                         # when you press designated button when it is on top of sprite
                     bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    sound.play(bongo_sound)
                     score_update()
                     bbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -867,6 +891,7 @@ def game_scene(game_mode):
                                      up_arrow.x, up_arrow.y + 7):
                         # when you press designated button when it is on top of sprite
                     upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    sound.play(bongo_sound)
                     score_update()
                     upbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -900,6 +925,7 @@ def game_scene(game_mode):
                                      down_arrow.x, down_arrow.y + 7):
                         # when you press designated button when it is on top of sprite
                     downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    sound.play(bongo_sound)
                     score_update()
                     downbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -933,6 +959,7 @@ def game_scene(game_mode):
                                  left_arrow.x, left_arrow.y + 7):
                         # when you press designated button when it is on top of sprite
                     leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    sound.play(bongo_sound)
                     score_update()
                     leftbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -966,6 +993,7 @@ def game_scene(game_mode):
                                  right_arrow.x, right_arrow.y + 7):
                         # when you press designated button when it is on top of sprite
                     rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    sound.play(bongo_sound)
                     score_update()
                     rightbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -1030,6 +1058,11 @@ def game_over_scene(final_score):
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
     # sets the background to image 0 in the bank
     background = stage.Grid(image_bank_3, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y)
+
+    coin_sound = open("coin.wav", 'rb')
+    sound = ugame.audio
+    sound.stop()
+    sound.mute(False)
 
     text = []
 
@@ -1127,8 +1160,14 @@ def game_over_scene(final_score):
 
         if keys & ugame.K_X != 0 or keys & ugame.K_O != 0 or keys & ugame.K_START != 0 or keys & ugame.K_SELECT != 0:  # A, B, start or select
             if option == 0:
+                sound.play(coin_sound)
+                # This is so they can hear the full sound
+                time.sleep(1.0)
                 game_scene(game_mode)
             elif option == 1:
+                sound.play(coin_sound)
+                # This is so they can hear the full sound
+                time.sleep(1.0)
                 main_menu_scene()
 
 
