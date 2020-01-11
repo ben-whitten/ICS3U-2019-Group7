@@ -171,7 +171,7 @@ def main_menu_scene():
     sun = []
     game_mode_text = []
     game_mode = 0
-    option = 0
+    option = 1
 
     image_bank_5 = stage.Bank.from_bmp16("Backgrounds.bmp")
     image_bank_5 = stage.Bank.from_bmp16("backgrounds.bmp")
@@ -207,14 +207,14 @@ def main_menu_scene():
     start_text.clear()
     start_text.cursor(0, 0)
     start_text.move(constants.START_X, constants.START_Y)
-    start_text.text("<< START >>")
+    start_text.text("   START   ")
     text.append(start_text)
-    
+
     game_mode_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     game_mode_text.clear()
     game_mode_text.cursor(0, 0)
     game_mode_text.move(constants.GAME_MODE_1_X, constants.GAME_MODE_Y)
-    game_mode_text.text("   NORMAL MODE   ")
+    game_mode_text.text("<< NORMAL MODE >>")
     text.append(game_mode_text)
 
     a_button = constants.button_state["button_up"]
@@ -287,7 +287,7 @@ def main_menu_scene():
                 down_button = constants.button_state["button_released"]
             else:
                 down_button = constants.button_state["button_up"]
-                
+
         if keys & ugame.K_X != 0:
             if a_button == constants.button_state["button_up"]:
                 a_button = constants.button_state["button_just_pressed"]
@@ -1129,8 +1129,6 @@ def game_over_scene(final_score):
             if option == 0:
                 game_scene(game_mode)
             elif option == 1:
-                # Makes it sleep so you dont ccidentaly hit the new game button as soo nas you laod in.
-                time.sleep(0.5)
                 main_menu_scene()
 
 
