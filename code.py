@@ -303,8 +303,6 @@ def game_scene():
     border = []
     sprites = []
     jungle_joe = []
-    number_of_lives = 5
-    score = 0
     image_bank_5 = stage.Bank.from_bmp16("backgrounds.bmp")
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
 
@@ -362,12 +360,63 @@ def game_scene():
     down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(down_arrow)
 
-    def jungle_joe_animation():
+    number_of_lives = 5
+    score = 0
+    button_speed = 1
+
+    def score_update():
         # I know this is a function that is using variables outside of itself!
-        #   BUT this code is going to be used in multiple places.
-        # make jungle joe jump when you correctly destroy a key.
-        jungle_joe_jumping.move(jungle_joe[jungle_joe_standing].x, jungle_joe[jungle_joe_standing].y)
-        jungle_joe_standing.move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+        #   BUT this code is going to be used in multiple places
+        # update the score when you correctly hit a button or when you hit a milestone
+        score = score + 1
+        if score % 10 == 0:
+            number_of_lives += 1
+            if number_of_lives > 5:
+                number_of_lives == 5
+            button_speed += constants.SPEED_INCREASE
+            jungle_joe[1].move(jungle_joe[0].x, jungle_joe[0].y)
+            jungle_joe[0].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+            while True:
+                if logs[0].y < 50:
+                    if jungle_joe[1].x > logs[0].x:
+                        jungle_joe[1].move(jungle_joe[1].x - constants.JUNGLE_JOE_X_SPEED, jungle_joe[1].y)
+                    if jungle_joe[1].y > logs[0].y - constants.SPRITE_SIZE:
+                        jungle_joe[1].move(jungle_joe[1].x, jungle_joe[1].y - constants.JUNGLE_JOE_Y_SPEED)
+                if jungle_joe[1].x == logs[0].x and jungle_joe[1].y == logs[0].y - constants.SPRITE_SIZE and jungle_joe[1].y < 50:
+                    jungle_joe[0].move(jungle_joe[1].x, jungle_joe[1].y)
+                    jungle_joe[1].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    break
+
+                if logs[1].y < 50:
+                    if jungle_joe[1].x < logs[1].x:
+                        jungle_joe[1].move(jungle_joe[1].x + constants.JUNGLE_JOE_X_SPEED, jungle_joe[1].y)
+                    if jungle_joe[1].y > logs[1].y - constants.SPRITE_SIZE:
+                        jungle_joe[1].move(jungle_joe[1].x, jungle_joe[1].y - constants.JUNGLE_JOE_Y_SPEED)
+                if jungle_joe[1].x == logs[1].x and jungle_joe[1].y == logs[1].y - constants.SPRITE_SIZE and jungle_joe[1].y < 50:
+                    jungle_joe[0].move(jungle_joe[1].x, jungle_joe[1].y)
+                    jungle_joe[1].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    break
+
+                # redraw sprite list
+                game.render_sprites(logs + jungle_joe)
+                game.tick()  # wait until refresh rate finishes
+
+            while True:
+                jungle_joe[0].move(jungle_joe[0].x, jungle_joe[0].y + constants.SCROLL_SPEED)
+                logs[0].move(logs[0].x, logs[0].y + constants.SCROLL_SPEED)
+                logs[1].move(logs[1].x, logs[1].y + constants.SCROLL_SPEED)
+
+                if logs[0].y > constants.SCREEN_Y:
+                    logs[0].move(constants.LEFT_LOG, constants.INCOMING_LOG_HEIGHT)
+                if logs[1].y > constants.SCREEN_Y:
+                    logs[1].move(constants.RIGHT_LOG, constants.INCOMING_LOG_HEIGHT)
+
+                if jungle_joe[0].y == constants.JUNGLE_JOE_START_Y:
+                    break
+
+                # redraw sprite list
+                game.render_sprites(logs + jungle_joe)
+                game.tick()  # wait until refresh rate finishes
 
     logs = []
     for log_number in range(constants.TOTAL_NUMBER_OF_A_LOGS):
@@ -376,19 +425,6 @@ def game_scene():
 
     logs[0].move(constants.LOG_1_START_X, constants.LOG_1_START_Y)
     logs[1].move(constants.RIGHT_LOG, constants.LOG_2_START_Y)
-
-    def show_logs():
-        if logs[0].x < 0: # meaning it is off the screen, so available to move on the screen
-            if logs[1].x > 0 and logs[1].x < 17:
-                logs[0].move(constants.RIGHT_LOG, constants.INCOMING_LOG_HEIGHT)
-            else:
-                logs[0].move(constants.LEFT_LOG, constants.INCOMING_LOG_HEIGHT)
-        if logs[1].x < 0: # meaning it is off the screen, so available to move on the screen
-            if logs[0].x > 0 and logs[0].x < 17:
-                logs[1].move(constants.RIGHT_LOG, constants.INCOMING_LOG_HEIGHT)
-            else:
-                logs[1].move(constants.LEFT_LOG, constants.INCOMING_LOG_HEIGHT)
-
 
     def show_abutton():
         # I know this is a function that is using variables outside of itself!
@@ -504,6 +540,29 @@ def game_scene():
     rightbutton_count = 0
     show_rightbutton()
 
+    def random_amount():
+        rand_amount_number = random.randint(1, 2)
+        for loop_counter in range(rand_amount_number):
+            random_selection = random.randint(1, 6)
+            if random_selection == 1:
+                abutton_count = 1
+                loop_counter = loop_counter + 1
+            elif random_selection == 2:
+                bbutton_count = 1
+                loop_counter = loop_counter + 1
+            elif random_selection == 3:
+                upbutton_count = 1
+                loop_counter = loop_counter + 1
+            elif random_selection == 4:
+                downbutton_count = 1
+                loop_counter = loop_counter + 1
+            elif random_selection == 5:
+                leftbutton_count = 1
+                loop_counter = loop_counter + 1
+            elif random_selection == 6:
+                rightbutton_count = 1
+                loop_counter = loop_counter + 1
+
     game = stage.Stage(ugame.display, constants.FPS)
     game.layers = jungle_joe + logs + border + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + sprites + [background]
 
@@ -580,100 +639,284 @@ def game_scene():
             else:
                 right_button = constants.button_state["button_up"]
 
-        for a_button_sprite_number in range(len(abutton)):
+        for a_button_number in range(len(abutton)):
             if abutton_count > 0:
                 if abutton[a_button_number].x > 0: # meaning it is on the screen
-                    abutton[a_button_number].move(abutton[a_button_number].x, abutton[a_button_number].y + constants.BUTTON_SPEED)
+                    abutton[a_button_number].move(abutton[a_button_number].x, abutton[a_button_number].y + button_speed)
                     if abutton[a_button_number].y > constants.SCREEN_Y:
-                        number_of_lives = number_of_lives - 1
                         abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        number_of_lives = number_of_lives - 1
                         show_abutton() # make it randomly show up at top again
-            else:
-                break
 
         for b_button_number in range(len(bbutton)):
             if bbutton_count > 0:
                 if bbutton[b_button_number].x > 0: # meaning it is on the screen
-                    bbutton[b_button_number].move(bbutton[b_button_number].x, bbutton[b_button_number].y + constants.BUTTON_SPEED)
+                    bbutton[b_button_number].move(bbutton[b_button_number].x, bbutton[b_button_number].y + button_speed)
                     if bbutton[b_button_number].y > constants.SCREEN_Y:
-                        number_of_lives = number_of_lives - 1
                         bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        number_of_lives = number_of_lives - 1
                         show_bbutton() # make it randomly show up at top again
-            else:
-                break
 
         for up_button_number in range(len(upbutton)):
             if upbutton_count > 0:
                 if upbutton[up_button_number].x > 0: # meaning it is on the screen
-                    upbutton[up_button_number].move(upbutton[up_button_number].x, upbutton[up_button_number].y + constants.BUTTON_SPEED)
+                    upbutton[up_button_number].move(upbutton[up_button_number].x, upbutton[up_button_number].y + button_speed)
                     if upbutton[up_button_number].y > constants.SCREEN_Y:
-                        number_of_lives = number_of_lives - 1
                         upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        number_of_lives = number_of_lives - 1
                         show_upbutton() # make it randomly show up at top again
-            else:
-                break
 
         for down_button_number in range(len(downbutton)):
             if downbutton_count > 0:
                 if downbutton[down_button_number].x > 0: # meaning it is on the screen
-                    downbutton[down_button_number].move(downbutton[down_button_number].x, downbutton[down_button_number].y + constants.BUTTON_SPEED)
+                    downbutton[down_button_number].move(downbutton[down_button_number].x, downbutton[down_button_number].y + button_speed)
                     if downbutton[down_button_number].y > constants.SCREEN_Y:
-                        number_of_lives = number_of_lives - 1
                         downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        number_of_lives = number_of_lives - 1
                         show_downbutton() # make it randomly show up at top again
-            else:
-                break
 
         for left_button_number in range(len(leftbutton)):
             if leftbutton_count > 0:
                 if leftbutton[left_button_number].x > 0: # meaning it is on the screen
-                    leftbutton[left_button_number].move(leftbutton[left_button_number].x, leftbutton[left_button_number].y + constants.BUTTON_SPEED)
+                    leftbutton[left_button_number].move(leftbutton[left_button_number].x, leftbutton[left_button_number].y + button_speed)
                     if leftbutton[left_button_number].y > constants.SCREEN_Y:
-                        number_of_lives = number_of_lives - 1
                         leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        number_of_lives = number_of_lives - 1
                         show_leftbutton() # make it randomly show up at top again
-            else:
-                break
 
         for right_button_number in range(len(rightbutton)):
             if rightbutton_count > 0:
                 if rightbutton[right_button_number].x > 0: # meaning it is on the screen
-                    rightbutton[right_button_number].move(rightbutton[right_button_number].x, rightbutton[right_button_number].y + constants.BUTTON_SPEED)
+                    rightbutton[right_button_number].move(rightbutton[right_button_number].x, rightbutton[right_button_number].y + button_speed)
                     if rightbutton[right_button_number].y > constants.SCREEN_Y:
-                        number_of_lives = number_of_lives - 1
                         rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                        number_of_lives = number_of_lives - 1
                         show_rightbutton() # make it randomly show up at top again
-            else:
-                break
 
-        if jungle_joe_jumping.x > 0:
-            for log_number in range(len(logs)):
-                if logs[log_number].x > 0 and logs[log_number].x < 20 and logs[log_number].y < 40:
-                    if jungle_joe_jumping.x > logs[log_number].x:
-                        jungle_joe_jumping.move(jungle_joe_jumping.x - constants.JUNGLE_JOE_X_SPEED, jungle_joe_jumping.y)
-                    if jungle_joe_jumping.y > logs[log_number].y - constants.SPRITE_SIZE:
-                        jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
-                if logs[log_number].x > 20 and logs[log_number].y < 40:
-                    if jungle_joe_jumping.x < logs[log_number].x:
-                        jungle_joe_jumping.move(jungle_joe_jumping.x - constants.JUNGLE_JOE_X_SPEED, jungle_joe_jumping.y)
-                    if jungle_joe_jumping.y > logs[log_number].y - constants.SPRITE_SIZE:
-                        jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
-                if jungle_joe_jumping.y < 40:
-                    if jungle_joe_jumping.x == logs[log_number].x and jungle_joe_jumping.y == logs[log_number].y - constants.SPRITE_SIZE:
-                        jungle_joe_standing.move(jungle_joe_jumping.x, jungle_joe_jumping.y)
-                        jungle_joe_jumping.move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+        for a_button_number in range(len(abutton)):
+            if abutton[a_button_number].x > 0 and a_button == constants.button_state["button_just_pressed"]:
+                if stage.collide(abutton[a_button_number].x, abutton[a_button_number].y,
+                                     abutton[a_button_number].x, abutton[a_button_number].y + 7,
+                                     a_button_sprite.x, a_button_sprite.y,
+                                     a_button_sprite.x, a_button_sprite.y + 7):
+                        # when you press designated button when it is on top of sprite
+                    abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    score_update()
+                    abutton_count = 0
+                    rand_amount_number = random.randint(1, 2)
+                    for loop_counter in range(rand_amount_number):
+                        random_selection = random.randint(1, 6)
+                        if random_selection == 1:
+                            abutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 2:
+                            bbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 3:
+                            upbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 4:
+                            downbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 5:
+                            leftbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 6:
+                            rightbutton_count = 1
+                            loop_counter = loop_counter + 1
+                    show_abutton()
+            
 
-        if jungle_joe_standing.y > 97:
-            jungle_joe_standing.move(jungle_joe_standing.x, jungle_joe_standing.y + constants.SCROLL_SPEED)
-            logs[0].move(logs[0].x, logs[0].y + constants.SCROLL_SPEED)
-            logs[1].move(logs[0].x, logs[1].y + constants.SCROLL_SPEED)
+        for b_button_number in range(len(bbutton)):
+            if bbutton[b_button_number].x > 0 and b_button == constants.button_state["button_just_pressed"]:
+                if stage.collide(bbutton[b_button_number].x, bbutton[b_button_number].y,
+                                     bbutton[b_button_number].x, bbutton[b_button_number].y + 7,
+                                     b_button_sprite.x, b_button_sprite.y,
+                                     b_button_sprite.x, b_button_sprite.y + 7):
+                        # when you press designated button when it is on top of sprite
+                    bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    score_update()
+                    bbutton_count = 0
+                    rand_amount_number = random.randint(1, 2)
+                    for loop_counter in range(rand_amount_number):
+                        random_selection = random.randint(1, 6)
+                        if random_selection == 1:
+                            abutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 2:
+                            bbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 3:
+                            upbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 4:
+                            downbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 5:
+                            leftbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 6:
+                            rightbutton_count = 1
+                            loop_counter = loop_counter + 1
+                    show_bbutton()
 
-        for log_number in range(constants.TOTAL_NUMBER_OF_A_LOGS):
-            if logs[log_number].y > constants.SCREEN_Y:
-                logs[log_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+        for up_button_number in range(len(upbutton)):
+            if upbutton[up_button_number].x > 0 and up_button == constants.button_state["button_just_pressed"]:
+                if stage.collide(upbutton[up_button_number].x, upbutton[up_button_number].y,
+                                     upbutton[up_button_number].x, upbutton[up_button_number].y + 7,
+                                     up_arrow.x, up_arrow.y,
+                                     up_arrow.x, up_arrow.y + 7):
+                        # when you press designated button when it is on top of sprite
+                    upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    score_update()
+                    upbutton_count = 0
+                    rand_amount_number = random.randint(1, 2)
+                    for loop_counter in range(rand_amount_number):
+                        random_selection = random.randint(1, 6)
+                        if random_selection == 1:
+                            abutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 2:
+                            bbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 3:
+                            upbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 4:
+                            downbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 5:
+                            leftbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 6:
+                            rightbutton_count = 1
+                            loop_counter = loop_counter + 1
+                    show_upbutton()
+
+        for down_button_number in range(len(downbutton)):
+            if downbutton[down_button_number].x > 0 and down_button == constants.button_state["button_just_pressed"]:
+                if stage.collide(downbutton[down_button_number].x, downbutton[down_button_number].y,
+                                     downbutton[down_button_number].x, downbutton[down_button_number].y + 7,
+                                     down_arrow.x, down_arrow.y,
+                                     down_arrow.x, down_arrow.y + 7):
+                        # when you press designated button when it is on top of sprite
+                    downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    score_update()
+                    downbutton_count = 0
+                    rand_amount_number = random.randint(1, 2)
+                    for loop_counter in range(rand_amount_number):
+                        random_selection = random.randint(1, 6)
+                        if random_selection == 1:
+                            abutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 2:
+                            bbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 3:
+                            upbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 4:
+                            downbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 5:
+                            leftbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 6:
+                            rightbutton_count = 1
+                            loop_counter = loop_counter + 1
+                    show_downbutton()
+
+        for left_button_number in range(len(leftbutton)):
+            if leftbutton[left_button_number].x > 0 and left_button == constants.button_state["button_just_pressed"]:
+                if stage.collide(leftbutton[left_button_number].x, leftbutton[left_button_number].y,
+                                 leftbutton[left_button_number].x, leftbutton[left_button_number].y + 7,
+                                 left_arrow.x, left_arrow.y,
+                                 left_arrow.x, left_arrow.y + 7):
+                        # when you press designated button when it is on top of sprite
+                    leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    score_update()
+                    leftbutton_count = 0
+                    rand_amount_number = random.randint(1, 2)
+                    for loop_counter in range(rand_amount_number):
+                        random_selection = random.randint(1, 6)
+                        if random_selection == 1:
+                            abutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 2:
+                            bbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 3:
+                            upbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 4:
+                            downbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 5:
+                            leftbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 6:
+                            rightbutton_count = 1
+                            loop_counter = loop_counter + 1
+                    show_leftbutton()
+
+        for right_button_number in range(len(rightbutton)):
+            if rightbutton[right_button_number].x > 0 and right_button == constants.button_state["button_just_pressed"]:
+                if stage.collide(rightbutton[right_button_number].x, rightbutton[right_button_number].y,
+                                 rightbutton[right_button_number].x, rightbutton[right_button_number].y + 7,
+                                 right_arrow.x, right_arrow.y,
+                                 right_arrow.x, right_arrow.y + 7):
+                        # when you press designated button when it is on top of sprite
+                    rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                    score_update()
+                    rightbutton_count = 0
+                    rand_amount_number = random.randint(1, 2)
+                    for loop_counter in range(rand_amount_number):
+                        random_selection = random.randint(1, 6)
+                        if random_selection == 1:
+                            abutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 2:
+                            bbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 3:
+                            upbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 4:
+                            downbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 5:
+                            leftbutton_count = 1
+                            loop_counter = loop_counter + 1
+                        elif random_selection == 6:
+                            rightbutton_count = 1
+                            loop_counter = loop_counter + 1
+                    show_rightbutton()
 
         if number_of_lives == 0:
-            game_over_scene(score)
+            jungle_joe[1].move(jungle_joe[0].x, jungle_joe[0].y)
+            jungle_joe[0].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+            while True:
+                if logs[0].y < 50:
+                    if jungle_joe[1].x > logs[0].x:
+                        jungle_joe[1].move(jungle_joe[1].x - constants.JUNGLE_JOE_X_SPEED, jungle_joe[1].y)
+                    if jungle_joe[1].y > logs[0].y - constants.SPRITE_SIZE:
+                        jungle_joe[1].move(jungle_joe[1].x, jungle_joe[1].y - constants.JUNGLE_JOE_Y_SPEED)
+                if logs[1].y < 50:
+                    if jungle_joe[1].x < logs[1].x:
+                        jungle_joe[1].move(jungle_joe[1].x + constants.JUNGLE_JOE_X_SPEED, jungle_joe[1].y)
+                    if jungle_joe[1].y > logs[1].y - constants.SPRITE_SIZE:
+                        jungle_joe[1].move(jungle_joe[1].x, jungle_joe[1].y - constants.JUNGLE_JOE_Y_SPEED)
+                if jungle_joe[1].x == constants.DEATH_LOCATION:
+                    while True:
+                        jungle_joe[1].move(jungle_joe[1].x, jungle_joe[1].y + constants.JUNGLE_JOE_Y_SPEED)
+                        if jungle_joe[1].y > constants.SCREEN_Y:
+                            game_over_scene(score)
+                        # redraw sprite list
+                        game.render_sprites(jungle_joe)
+                        game.tick()  # wait until refresh rate finishes
+                # redraw sprite list
+                game.render_sprites(jungle_joe)
+                game.tick()  # wait until refresh rate finishes
 
         # redraw sprite list
         game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
@@ -727,3 +970,4 @@ def game_over_scene(final_score):
 
 if __name__ == "__main__":
     blank_white_reset_scene()
+    
