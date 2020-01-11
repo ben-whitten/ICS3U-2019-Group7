@@ -171,6 +171,7 @@ def main_menu_scene():
     sun = []
     game_mode_text = []
     game_mode = 0
+    option = 0
 
     image_bank_5 = stage.Bank.from_bmp16("Backgrounds.bmp")
     image_bank_5 = stage.Bank.from_bmp16("backgrounds.bmp")
@@ -202,20 +203,26 @@ def main_menu_scene():
     text.append(text_3)
 
 
-    text_4 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
-    text_4.move(35, 118)
-    text_4.text("PRESS START!")
-    text.append(text_4)
+    start_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    start_text.clear()
+    start_text.cursor(0, 0)
+    start_text.move(constants.START_X, constants.START_Y)
+    start_text.text("<< START >>")
+    text.append(start_text)
     
     game_mode_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     game_mode_text.clear()
     game_mode_text.cursor(0, 0)
-    game_mode_text.move(10, 100)
-    game_mode_text.text("GAME MODE: NORMAL")
+    game_mode_text.move(constants.GAME_MODE_1_X, constants.GAME_MODE_Y)
+    game_mode_text.text("   NORMAL MODE   ")
     text.append(game_mode_text)
 
     a_button = constants.button_state["button_up"]
     b_button = constants.button_state["button_up"]
+    up_button = constants.button_state["button_up"]
+    down_button = constants.button_state["button_up"]
+    start_button = constants.button_state["button_up"]
+    select_button = constants.button_state["button_up"]
 
     # Displays the sun
     sun_top_left = stage.Sprite(image_bank_5, 11, 128, 0)
@@ -259,6 +266,28 @@ def main_menu_scene():
         keys = ugame.buttons.get_pressed()
 
         #print(keys)
+        if keys & ugame.K_UP != 0:
+            if up_button == constants.button_state["button_up"]:
+                up_button = constants.button_state["button_just_pressed"]
+            elif up_button == constants.button_state["button_just_pressed"]:
+                up_button = constants.button_state["button_still_pressed"]
+        else:
+            if up_button == constants.button_state["button_still_pressed"]:
+                up_button = constants.button_state["button_released"]
+            else:
+                up_button = constants.button_state["button_up"]
+
+        if keys & ugame.K_DOWN != 0:
+            if down_button == constants.button_state["button_up"]:
+                down_button = constants.button_state["button_just_pressed"]
+            elif down_button == constants.button_state["button_just_pressed"]:
+                down_button = constants.button_state["button_still_pressed"]
+        else:
+            if down_button == constants.button_state["button_still_pressed"]:
+                down_button = constants.button_state["button_released"]
+            else:
+                down_button = constants.button_state["button_up"]
+                
         if keys & ugame.K_X != 0:
             if a_button == constants.button_state["button_up"]:
                 a_button = constants.button_state["button_just_pressed"]
@@ -281,24 +310,87 @@ def main_menu_scene():
             else:
                 b_button = constants.button_state["button_up"]
 
-        if b_button == constants.button_state["button_just_pressed"] or a_button == constants.button_state["button_just_pressed"]:
-            if game_mode == 0:
-                game_mode = 1
-                game_mode_text.clear()
-                game_mode_text.cursor(0, 0)
-                game_mode_text.move(7, 100)
-                game_mode_text.text("GAME MODE: ENDLESS")
-                game.render_block()
-            elif game_mode == 1:
-                game_mode = 0
-                game_mode_text.clear()
-                game_mode_text.cursor(0, 0)
-                game_mode_text.move(10, 100)
-                game_mode_text.text("GAME MODE: NORMAL")
-                game.render_block()
+        if keys & ugame.K_SELECT != 0:
+            if select_button == constants.button_state["button_up"]:
+                select_button = constants.button_state["button_just_pressed"]
+            elif select_button == constants.button_state["button_just_pressed"]:
+                select_button = constants.button_state["button_still_pressed"]
+        else:
+            if select_button == constants.button_state["button_still_pressed"]:
+                select_button = constants.button_state["button_released"]
+            else:
+                select_button = constants.button_state["button_up"]
 
-        if keys & ugame.K_START != 0:  # Start button
-            game_scene(game_mode)
+        if keys & ugame.K_START != 0:
+            if start_button == constants.button_state["button_up"]:
+                start_button = constants.button_state["button_just_pressed"]
+            elif start_button == constants.button_state["button_just_pressed"]:
+                start_button = constants.button_state["button_still_pressed"]
+        else:
+            if start_button == constants.button_state["button_still_pressed"]:
+                start_button = constants.button_state["button_released"]
+            else:
+                start_button = constants.button_state["button_up"]
+
+        if down_button == constants.button_state["button_just_pressed"] or up_button == constants.button_state["button_just_pressed"]:
+            if option == 0:
+                option = 1
+                start_text.clear()
+                start_text.cursor(0, 0)
+                start_text.move(constants.START_X, constants.START_Y)
+                start_text.text("   START   ")
+                game.render_block()
+                if game_mode == 0:
+                    game_mode_text.clear()
+                    game_mode_text.cursor(0, 0)
+                    game_mode_text.move(constants.GAME_MODE_1_X, constants.GAME_MODE_Y)
+                    game_mode_text.text("<< NORMAL MODE >>")
+                    game.render_block()
+                elif game_mode == 1:
+                    game_mode_text.clear()
+                    game_mode_text.cursor(0, 0)
+                    game_mode_text.move(constants.GAME_MODE_2_X, constants.GAME_MODE_Y)
+                    game_mode_text.text("<< ENDLESS MODE >>")
+                    game.render_block()
+            elif option == 1:
+                option = 0
+                start_text.clear()
+                start_text.cursor(0, 0)
+                start_text.move(constants.START_X, constants.START_Y)
+                start_text.text("<< START >>")
+                game.render_block()
+                if game_mode == 0:
+                    game_mode_text.clear()
+                    game_mode_text.cursor(0, 0)
+                    game_mode_text.move(constants.GAME_MODE_1_X, constants.GAME_MODE_Y)
+                    game_mode_text.text("   NORMAL MODE   ")
+                    game.render_block()
+                elif game_mode == 1:
+                    game_mode_text.clear()
+                    game_mode_text.cursor(0, 0)
+                    game_mode_text.move(constants.GAME_MODE_2_X, constants.GAME_MODE_Y)
+                    game_mode_text.text("   ENDLESS MODE   ")
+                    game.render_block()
+
+        if (start_button == constants.button_state["button_just_pressed"] or select_button == constants.button_state["button_just_pressed"]
+            or a_button == constants.button_state["button_just_pressed"] or b_button == constants.button_state["button_just_pressed"]):
+            if option == 0:
+                game_scene(game_mode)
+            elif option == 1:
+                if game_mode == 1:
+                    game_mode = 0
+                    game_mode_text.clear()
+                    game_mode_text.cursor(0, 0)
+                    game_mode_text.move(constants.GAME_MODE_1_X, constants.GAME_MODE_Y)
+                    game_mode_text.text("<< NORMAL MODE >>")
+                    game.render_block()
+                elif game_mode == 0:
+                    game_mode = 1
+                    game_mode_text.clear()
+                    game_mode_text.cursor(0, 0)
+                    game_mode_text.move(constants.GAME_MODE_2_X, constants.GAME_MODE_Y)
+                    game_mode_text.text("<< ENDLESS MODE >>")
+                    game.render_block()
 
         # update game logic
         for cloud_number in range (len(clouds)):
@@ -1037,9 +1129,10 @@ def game_over_scene(final_score):
             if option == 0:
                 game_scene(game_mode)
             elif option == 1:
+                # Makes it sleep so you dont ccidentaly hit the new game button as soo nas you laod in.
+                time.sleep(0.5)
                 main_menu_scene()
 
 
 if __name__ == "__main__":
     blank_white_reset_scene()
-   
