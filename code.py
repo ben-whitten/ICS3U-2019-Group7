@@ -442,6 +442,10 @@ def game_scene(game_mode):
     border = []
     sprites = []
     jungle_joe = []
+    number_of_lives = 5
+    score = 0
+    button_speed = 1
+    height = 0
     image_bank_5 = stage.Bank.from_bmp16("backgrounds.bmp")
     image_bank_3 = stage.Bank.from_bmp16("jungle_joe.bmp")
 
@@ -489,9 +493,9 @@ def game_scene(game_mode):
     border.append(border_8)
 
     # Displays Jungle Joe and logs
-    jungle_joe_standing = stage.Sprite(image_bank_3, 15, constants.JUNGLE_JOE_START_X, constants.JUNGLE_JOE_START_Y)
+    jungle_joe_standing = stage.Sprite(image_bank_3, 15, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y )
     jungle_joe.append(jungle_joe_standing)
-    jungle_joe_jumping = stage.Sprite(image_bank_3, 14, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+    jungle_joe_jumping = stage.Sprite(image_bank_3, 14, constants.JUNGLE_JOE_START_X, constants.OFF_TOP_SCREEN)
     jungle_joe.append(jungle_joe_jumping)
 
     # Displays key sprites.
@@ -508,10 +512,6 @@ def game_scene(game_mode):
     down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(down_arrow)
 
-    number_of_lives = 5
-    score = 0
-    button_speed = 1
-
     def score_update():
         # I know this is a function that is using variables outside of itself!
         #   BUT this code is going to be used in multiple places
@@ -519,6 +519,7 @@ def game_scene(game_mode):
         score = score + 1
         if score % 10 == 0:
             sound.play(coin_sound)
+            height = height + 24
             button_speed += constants.SPEED_INCREASE
             jungle_joe[1].move(jungle_joe[0].x, jungle_joe[0].y)
             jungle_joe[0].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
@@ -690,6 +691,20 @@ def game_scene(game_mode):
     game.layers = jungle_joe + logs + border + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + sprites + [background]
 
     game.render_block()
+
+    # Opening animation
+    while True:
+        if jungle_joe_jumping.y < constants.JUNGLE_JOE_NORMAL_Y:
+            jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
+            game.render_sprites(jungle_joe)
+            game.tick()
+        else:
+            jungle_joe_standing.move(jungle_joe_jumping.x, jungle_joe_jumping.y)
+            jungle_joe_jumping.move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+            game.render_sprites(jungle_joe)
+            game.tick()
+            sound.play(boom_sound)
+            break
 
     # repeat forever, game loop
     while True:
@@ -1042,7 +1057,7 @@ def game_scene(game_mode):
                             sound.play(boom_sound)
                             # Allows the full sound to play out
                             time.sleep(0.5)
-                            game_over_scene(score)
+                            game_over_scene(score, height)
                         # redraw sprite list
                         game.render_sprites(jungle_joe)
                         game.tick()  # wait until refresh rate finishes
@@ -1054,7 +1069,7 @@ def game_scene(game_mode):
         game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
         game.tick()  # wait until refresh rate finishes
 
-def game_over_scene(final_score):
+def game_over_scene(final_score, final_height):
     # this function is the game over scene
     option = 0
     # This is so it can get into the game scene. Only one option as you cant get here on endless
@@ -1080,7 +1095,12 @@ def game_over_scene(final_score):
     text0.text("Final Score: {:0>2d}".format(final_score))
     text.append(text0)
 
-    text1 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    text2 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    text2.move(11, 30)
+    text2.text("Final Height: {:0>2d}ft".format(final_height))
+    text.append(text2)
+
+    text1 = stage.Text(width=29, height=14, font=None, palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
     text1.move(43, 60)
     text1.text("GAME OVER")
     text.append(text1)
@@ -1183,3 +1203,4 @@ def game_over_scene(final_score):
 
 if __name__ == "__main__":
     blank_white_reset_scene()
+    
