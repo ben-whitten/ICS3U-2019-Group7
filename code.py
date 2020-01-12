@@ -558,7 +558,7 @@ def game_scene(game_mode):
                 if logs[1].y > constants.SCREEN_Y:
                     logs[1].move(constants.RIGHT_LOG, constants.INCOMING_LOG_HEIGHT)
 
-                if jungle_joe[0].y == constants.JUNGLE_JOE_START_Y:
+                if jungle_joe[0].y == constants.JUNGLE_JOE_NORMAL_Y:
                     break
 
                 # redraw sprite list
@@ -1096,7 +1096,7 @@ def game_over_scene(final_score, final_height):
     text.append(text0)
 
     text2 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
-    text2.move(11, 30)
+    text2.move(5, 30)
     text2.text("Final Height: {:0>2d}ft".format(final_height))
     text.append(text2)
 
@@ -1203,4 +1203,3 @@ def game_over_scene(final_score, final_height):
 
 if __name__ == "__main__":
     blank_white_reset_scene()
-    
