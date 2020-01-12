@@ -7,7 +7,7 @@
 import ugame
 import stage
 import board
-# import neopixel
+import neopixel
 import time
 import random
 import constants
@@ -16,8 +16,8 @@ def blank_white_reset_scene():
     # this function is the splash scene game loop
     # do house keeping to ensure everythng is setup
     # set up the NeoPixels
-    # pixels = neopixel.NeoPixel(board.NEOPIXEL, 5, auto_write=False)
-    # pixels.deinit() # and turn them all off
+    pixels = neopixel.NeoPixel(board.NEOPIXEL, 5, auto_write=False)
+    pixels.deinit() # and turn them all off
     # reset sound to be off
     sound = ugame.audio
     sound.stop()
@@ -344,7 +344,6 @@ def main_menu_scene():
                 start_button = constants.button_state["button_up"]
 
         if down_button == constants.button_state["button_just_pressed"] or up_button == constants.button_state["button_just_pressed"]:
-            sound.play(pew_sound)
             if option == 0:
                 option = 1
                 start_text.clear()
@@ -512,11 +511,30 @@ def game_scene(game_mode):
     down_arrow = stage.Sprite(image_bank_3, 9, constants.DOWN_BUTTON, constants.BUTTON_HEIGHT)
     sprites.append(down_arrow)
 
+    text = []
+    score_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    score_text.clear()
+    score_text.cursor(0, 0)
+    score_text.move(1, 1)
+    score_text.text("Score:{0}".format(score))
+    text.append(score_text)
+
+    pixels = neopixel.NeoPixel(board.NEOPIXEL, 5, auto_write=False)
+    for pixel_number in range(0, 5):
+        pixels[pixel_number] = (0, 10, 0)
+    pixels.show()
+
     def score_update():
         # I know this is a function that is using variables outside of itself!
         #   BUT this code is going to be used in multiple places
         # update the score when you correctly hit a button or when you hit a milestone
         score = score + 1
+        # Refreshes score text
+        score_text.clear()
+        score_text.cursor(0, 0)
+        score_text.move(1, 1)
+        score_text.text("Score:{0}".format(score))
+        game.render_block()
         if score % 10 == 0:
             sound.play(coin_sound)
             height = height + 24
@@ -688,7 +706,7 @@ def game_scene(game_mode):
     show_rightbutton()
 
     game = stage.Stage(ugame.display, constants.FPS)
-    game.layers = jungle_joe + logs + border + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + sprites + [background]
+    game.layers = text + jungle_joe + logs + border + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton + sprites + [background]
 
     game.render_block()
 
@@ -1036,9 +1054,32 @@ def game_scene(game_mode):
                             loop_counter = loop_counter + 1
                     show_rightbutton()
 
+        if number_of_lives == 5:
+            for pixel_number in range(0, 5):
+                    pixels[pixel_number] = (0, 10, 0)
+                    pixels.show()
+        if number_of_lives == 4:
+            for pixel_number in range(1):
+                    pixels[pixel_number] = (25, 0, 0)
+                    pixels.show()
+        if number_of_lives == 3:
+            for pixel_number in range(2):
+                    pixels[pixel_number] = (25, 0, 0)
+                    pixels.show()
+        if number_of_lives == 2:
+            for pixel_number in range(3):
+                    pixels[pixel_number] = (25, 0, 0)
+                    pixels.show()
+        if number_of_lives == 1:
+            for pixel_number in range(4):
+                    pixels[pixel_number] = (25, 0, 0)
+                    pixels.show()
         if number_of_lives == 0:
             jungle_joe[1].move(jungle_joe[0].x, jungle_joe[0].y)
             jungle_joe[0].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+            for pixel_number in range(5):
+                    pixels[pixel_number] = (25, 0, 0)
+                    pixels.show()
             while True:
                 if logs[0].y < 50:
                     if jungle_joe[1].x > logs[0].x:
@@ -1057,6 +1098,7 @@ def game_scene(game_mode):
                             sound.play(boom_sound)
                             # Allows the full sound to play out
                             time.sleep(0.5)
+                            pixels.deinit()
                             game_over_scene(score, height)
                         # redraw sprite list
                         game.render_sprites(jungle_joe)
@@ -1096,8 +1138,8 @@ def game_over_scene(final_score, final_height):
     text.append(text0)
 
     text2 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
-    text2.move(5, 30)
-    text2.text("Final Height: {:0>2d}ft".format(final_height))
+    text2.move(37, 30)
+    text2.text("Height: {:0>2d}ft".format(final_height))
     text.append(text2)
 
     text1 = stage.Text(width=29, height=14, font=None, palette=constants.MT_GAME_STUDIO_PALETTE, buffer=None)
