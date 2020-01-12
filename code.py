@@ -192,6 +192,10 @@ def main_menu_scene():
     sound.stop()
     sound.mute(False)
 
+    pew_sound = open("pew2.wav", 'rb')
+    sound.stop()
+    sound.mute(False)
+
     text_1 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     text_1.move(40, 20)
     text_1.text("JUNGLE JOE")
@@ -340,6 +344,7 @@ def main_menu_scene():
                 start_button = constants.button_state["button_up"]
 
         if down_button == constants.button_state["button_just_pressed"] or up_button == constants.button_state["button_just_pressed"]:
+            sound.play(pew_sound)
             if option == 0:
                 option = 1
                 start_text.clear()
@@ -456,8 +461,12 @@ def game_scene(game_mode):
         for y_location in range(constants.SCREEN_GRID_Y):
             background.tile(x_location, y_location, 5)
 
-    bongo_sound = open("bongo.wav", 'rb')
+    coin_sound = open("coin.wav", 'rb')
     sound = ugame.audio
+    sound.stop()
+    sound.mute(False)
+
+    boom_sound = open("boom.wav", 'rb')
     sound.stop()
     sound.mute(False)
 
@@ -509,8 +518,7 @@ def game_scene(game_mode):
         # update the score when you correctly hit a button or when you hit a milestone
         score = score + 1
         if score % 10 == 0:
-            if number_of_lives < 5:
-                number_of_lives += 1
+            sound.play(coin_sound)
             button_speed += constants.SPEED_INCREASE
             jungle_joe[1].move(jungle_joe[0].x, jungle_joe[0].y)
             jungle_joe[0].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
@@ -822,7 +830,6 @@ def game_scene(game_mode):
                                      a_button_sprite.x, a_button_sprite.y + 7):
                         # when you press designated button when it is on top of sprite
                     abutton[a_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                    sound.play(bongo_sound)
                     score_update()
                     abutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -857,7 +864,6 @@ def game_scene(game_mode):
                                      b_button_sprite.x, b_button_sprite.y + 7):
                         # when you press designated button when it is on top of sprite
                     bbutton[b_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                    sound.play(bongo_sound)
                     score_update()
                     bbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -891,7 +897,6 @@ def game_scene(game_mode):
                                      up_arrow.x, up_arrow.y + 7):
                         # when you press designated button when it is on top of sprite
                     upbutton[up_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                    sound.play(bongo_sound)
                     score_update()
                     upbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -925,7 +930,6 @@ def game_scene(game_mode):
                                      down_arrow.x, down_arrow.y + 7):
                         # when you press designated button when it is on top of sprite
                     downbutton[down_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                    sound.play(bongo_sound)
                     score_update()
                     downbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -959,7 +963,6 @@ def game_scene(game_mode):
                                  left_arrow.x, left_arrow.y + 7):
                         # when you press designated button when it is on top of sprite
                     leftbutton[left_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                    sound.play(bongo_sound)
                     score_update()
                     leftbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -993,7 +996,6 @@ def game_scene(game_mode):
                                  right_arrow.x, right_arrow.y + 7):
                         # when you press designated button when it is on top of sprite
                     rightbutton[right_button_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                    sound.play(bongo_sound)
                     score_update()
                     rightbutton_count = 0
                     rand_amount_number = random.randint(1, 2)
@@ -1037,6 +1039,9 @@ def game_scene(game_mode):
                     while True:
                         jungle_joe[1].move(jungle_joe[1].x, jungle_joe[1].y + constants.JUNGLE_JOE_Y_SPEED)
                         if jungle_joe[1].y > constants.SCREEN_Y:
+                            sound.play(boom_sound)
+                            # Allows the full sound to play out
+                            time.sleep(0.5)
                             game_over_scene(score)
                         # redraw sprite list
                         game.render_sprites(jungle_joe)
@@ -1061,6 +1066,10 @@ def game_over_scene(final_score):
 
     coin_sound = open("coin.wav", 'rb')
     sound = ugame.audio
+    sound.stop()
+    sound.mute(False)
+
+    pew_sound = open("pew2.wav", 'rb')
     sound.stop()
     sound.mute(False)
 
@@ -1133,6 +1142,7 @@ def game_over_scene(final_score):
 
         #print(keys)
         if down_button == constants.button_state["button_just_pressed"] or up_button == constants.button_state["button_just_pressed"]:
+            sound.play(pew_sound)
             if option == 0:
                 option = 1
                 menu_text.clear()
