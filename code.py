@@ -528,7 +528,12 @@ def game_scene(game_mode):
         # I know this is a function that is using variables outside of itself!
         #   BUT this code is going to be used in multiple places
         # update the score when you correctly hit a button or when you hit a milestone
-        score = score + 1
+        score += 1
+        score_text.clear()
+        score_text.cursor(0, 0)
+        score_text.move(1, 1)
+        score_text.text("Score: {0}".format(score))
+        game.render_block()
         if score % 10 == 0:
             sound.play(coin_sound)
             height = height + 24
