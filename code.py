@@ -718,6 +718,7 @@ def game_scene(game_mode):
 
     # Opening animation
     while True:
+        # I know its not good to  have 2 game loops, but its alot easier to do it this way.
         if jungle_joe_jumping.y < constants.JUNGLE_JOE_NORMAL_Y:
             jungle_joe_jumping.move(jungle_joe_jumping.x, jungle_joe_jumping.y + constants.JUNGLE_JOE_Y_SPEED)
             game.render_sprites(jungle_joe)
