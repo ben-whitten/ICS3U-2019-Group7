@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Created by: Mr. Coxall
+# Created by: Joey Marcotte and Ben Whitten
 # Created on: October 2019
 # This constants file is CircuitPython Stage game
 
@@ -20,6 +20,7 @@ OFF_SCREEN_Y = -100
 FPS = 60
 
 # Menu scene constants
+VERSION_NUMBER = 1.0
 TREE_TOP_GRID_Y = 5
 TREE_TOP_GRID_2_Y = 6
 BLACK_BACK_GRID_Y = 6
