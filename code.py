@@ -198,10 +198,6 @@ def main_menu_scene():
     sound.stop()
     sound.mute(False)
 
-    pew_sound = open("pew2.wav", 'rb')
-    sound.stop()
-    sound.mute(False)
-
     text_1 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     text_1.move(40, 20)
     text_1.text("JUNGLE JOE")
@@ -1250,4 +1246,3 @@ def game_over_scene(final_score, final_height):
 
 if __name__ == "__main__":
     blank_white_reset_scene()
-    
