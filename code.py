@@ -116,6 +116,12 @@ def game_splash_scene():
     text_1.move(13, 60)
     text_1.text("ELEMENTAL STUDIOS")
     text.append(text_1)
+
+    text_2 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    text_2.move(40, 80)
+    text_2.text("PRESENTS...")
+    text.append(text_2)
+
     fire_upper_right = stage.Sprite(image_bank_4, 0, 16, 0)
     sprites.append(fire_upper_right)
     fire_bottom_right = stage.Sprite(image_bank_4, 1, 16, 16)
@@ -211,6 +217,10 @@ def main_menu_scene():
     text_3.text("BONGO BANANZA!")
     text.append(text_3)
 
+    text_3 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
+    text_3.move(0, 0)
+    text_3.text("Version:{0}".format(constants.VERSION_NUMBER))
+    text.append(text_3)
 
     start_text = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
     start_text.clear()
@@ -1126,10 +1136,6 @@ def game_over_scene(final_score, final_height):
     sound.stop()
     sound.mute(False)
 
-    pew_sound = open("pew2.wav", 'rb')
-    sound.stop()
-    sound.mute(False)
-
     text = []
 
     text0 = stage.Text(width=29, height=14, font=None, palette=constants.SCORE_PALETTE, buffer=None)
@@ -1204,7 +1210,6 @@ def game_over_scene(final_score, final_height):
 
         #print(keys)
         if down_button == constants.button_state["button_just_pressed"] or up_button == constants.button_state["button_just_pressed"]:
-            sound.play(pew_sound)
             if option == 0:
                 option = 1
                 menu_text.clear()
@@ -1245,3 +1250,4 @@ def game_over_scene(final_score, final_height):
 
 if __name__ == "__main__":
     blank_white_reset_scene()
+    
