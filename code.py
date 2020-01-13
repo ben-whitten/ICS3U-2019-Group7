@@ -894,7 +894,6 @@ def game_scene(game_mode):
                             loop_counter = loop_counter + 1
                     show_abutton()
 
-
         for b_button_number in range(len(bbutton)):
             if bbutton[b_button_number].x > 0 and b_button == constants.button_state["button_just_pressed"]:
                 if stage.collide(bbutton[b_button_number].x, bbutton[b_button_number].y,
@@ -1206,6 +1205,7 @@ def game_over_scene(final_score, final_height):
 
         #print(keys)
         if down_button == constants.button_state["button_just_pressed"] or up_button == constants.button_state["button_just_pressed"]:
+
             if option == 0:
                 option = 1
                 menu_text.clear()
