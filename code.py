@@ -1060,6 +1060,10 @@ def game_scene(game_mode):
                             loop_counter = loop_counter + 1
                     show_rightbutton()
 
+        if keys & ugame.K_START != 0 or keys & ugame.K_SELECT != 0:
+            # Crashes game because not enough memory
+            main_menu_scene()
+
         if number_of_lives == 5:
             for pixel_number in range(0, 5):
                     pixels[pixel_number] = (0, 10, 0)
