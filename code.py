@@ -1060,10 +1060,6 @@ def game_scene(game_mode):
                             loop_counter = loop_counter + 1
                     show_rightbutton()
 
-        if keys & ugame.K_START != 0 or keys & ugame.K_SELECT != 0:
-            # Crashes game because not enough memory
-            main_menu_scene()
-
         if number_of_lives == 5:
             for pixel_number in range(0, 5):
                     pixels[pixel_number] = (0, 10, 0)
@@ -1178,6 +1174,11 @@ def game_over_scene(final_score, final_height):
     # render the background and inital location of sprite list
     # most likely you will only render background once per scene
     game.render_block()
+
+    # I know this isnt good, but it is the only fix I can think of as sometimes key.ugame doesnt
+    # return to 0, making you go instantly to the start menu. This atleast lets you see your score
+    # Before going.
+    time.sleep(5.0)
 
     # repeat forever, game loop
     while True:
