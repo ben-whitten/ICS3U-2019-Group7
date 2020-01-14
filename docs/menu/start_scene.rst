@@ -3,8 +3,9 @@
 Start Scene
 ===========
 
-[IMPORTANT] Most of the menu scene here is COMPLETELY optional. You can easily make a good menu where you press start to go to gaem scene. as such, I will not explain how I turned it into a menu that you would find in any other modern game.  Other than that, the rest is very simple. i simply painted the top 6/8ths of the screen with blue, the bottom 2/8ths of the screen black and placed the tree top sprites just over it. Also, I decided to spawn clouds by choosing a randon Y value to spawn at and then having their x value increase by 1 each time the game goes through the while true loop. Fianlly, I placed jungle joe and the sun asa ny other sprites and pllaced text on the screen. i did all this using the code below.
+[IMPORTANT] Most of the menu scene here is COMPLETELY optional. You can easily make a good menu where you press start to go to gaem scene. as such, I will not explain how I turned it into a menu that you would find in any other modern game but I will give you a quick summary. Basically, this program only changes the text to give off the appearance that the option is selected, while in actuality I just have the buttons change the option number (to change the text/start game) and the game mode(to change game mode). Other than that, the rest is very simple. i simply painted the top 6/8ths of the screen with blue, the bottom 2/8ths of the screen black and placed the tree top sprites just over it. Also, I decided to spawn clouds by choosing a randon Y value to spawn at (off screen) and then having their x value increase by 1 each time the game goes through the while true loop. Fianlly, I placed jungle joe and the sun just like any other sprites and placed text on the screen where I wanted. I did all this using the code below.
 .. toctree::
+    code.py
     # this function is the main menu scene
     text = []
     sprites = []
@@ -275,3 +276,20 @@ Start Scene
 
         game.render_sprites(clouds)
         game.tick()
+       
+    constants.py
+    VERSION_NUMBER = "1.0.1"
+    TREE_TOP_GRID_Y = 5
+    TREE_TOP_GRID_2_Y = 6
+    BLACK_BACK_GRID_Y = 6
+    BLACK_BACK_GRID_2_Y = 8
+    SPRITE_SIZE = 16
+    TOTAL_CLOUDS = 5
+    CLOUD_SPEED = 0.25
+    CLOUD_SPAWN_Y = 80
+    GAME_MODE_1_X = 10
+    GAME_MODE_2_X = 8
+    GAME_MODE_Y = 100
+    START_X = 35
+    START_Y = 118
+
