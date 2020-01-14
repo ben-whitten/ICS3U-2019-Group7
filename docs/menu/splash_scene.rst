@@ -3,4 +3,4 @@
 Splash Scene
 ============
 
-T
+in our version of the game, we have a splash screen with our company logo, Elemental Studios
