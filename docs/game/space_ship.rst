@@ -4,7 +4,6 @@ Jungle Joe
 ==========
 
 Jungle Joe is completely optional to the actual game, but he adds alot to it with his animations. To start, you need to make two sprites using sprites 14 and 15 of the image bank, jungle_joe. To make his animations, you are going to want to make a new function called score_update to save space and so you wont need to write the code six times. A quick sumary of how the code works is that the game checks to see where jungle joe is, then moves him accordingly so that he is above the next log up. Finally, it moves everything downwards and spawns a new log.
-
 .. toctree::
     code.py:
     # Displays Jungle Joe and logs
