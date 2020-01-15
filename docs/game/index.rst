@@ -16,6 +16,7 @@ After you have finished with the game scene you may add sounds if you desire, th
 .. toctree::
    background <background>
    Jungle Joe <jungle_joe>
+.. toctree::
    def game_scene(game_mode):
     # this function is the game scene
     sprites = []
