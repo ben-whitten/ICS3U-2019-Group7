@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Jungle Joe & Snakobs Bongo Bananza - CircuitPython Game'
-copyright = u'2020, Mr. Coxall'
+copyright = u'2020, Benjamin Whitten and Joey Marcotte'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -131,7 +131,7 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "images/space_aliens.png"
+html_logo = "images/B52E8506-8FAF-445B-A01C-FA0F0C758E91.jpeg"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
