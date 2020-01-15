@@ -15,11 +15,11 @@ For sound, the stage library can play back :file:`*.wav` files in PCM 16-bit Mon
 
 If you do not want to get into creating your own assets, other people have already made assets available to use. All the assets for this guide can be found in the GitHub repo here:
 
-- `space aliens image bank <https://github.com/MotherTeresaHS/ICS3U-2019-Group0/blob/master/space_aliens.bmp>`_
+- `jungle joe image bank <https://github.com/ben-whitten/ICS3U-2019-Group7/blob/master/jungle_joe.bmp>`_
+- `backgrounds image bank <https://github.com/ben-whitten/ICS3U-2019-Group7/blob/master/Backgrounds.bmp>`_
+- `elemental studios image bank <https://github.com/ben-whitten/ICS3U-2019-Group7/blob/master/elemental_studios.bmp>`_
 - `coin sound <https://github.com/MotherTeresaHS/ICS3U-2019-Group0/blob/master/coin.wav>`_
-- `pew sound <https://github.com/MotherTeresaHS/ICS3U-2019-Group0/blob/master/pew2.wav>`_
 - `boom sound <https://github.com/MotherTeresaHS/ICS3U-2019-Group0/blob/master/boom.wav>`_
-- `crash sound <https://github.com/MotherTeresaHS/ICS3U-2019-Group0/blob/master/crash.wav>`_
 
 Please download the assets and place them on the PyBadge, in the root directory. Your previoud "Hello, World!" program should restart and run again each time you load a new file onto the PyBadge, hopefully with no errors once more.
 
