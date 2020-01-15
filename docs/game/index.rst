@@ -13,7 +13,6 @@ Next we must make the lives and score system, In this game the user has 5 lives 
 Now we will be adding the finshing touches to the game scene, to get everything to load we must render all the sprites, and call the opther functions while taking the final hieght, which is shown in the jungle joe animation section, and the users final score. This is shown in the final code below.
 
 After you have finished with the game scene you may add sounds if you desire, the sounds will mostly relate to jungle joe animation and when you lose the game.
-
 .. toctree::
    def game_scene(game_mode):
     # this function is the game scene
@@ -557,8 +556,11 @@ After you have finished with the game scene you may add sounds if you desire, th
         # redraw sprite list
         game.render_sprites(logs + sprites + jungle_joe + abutton + bbutton + upbutton + downbutton + leftbutton + rightbutton)
         game.tick()  # wait until refresh rate finishes
-
+        
+.. toctree::
    :maxdepth: 1
    :glob:
-   background <background>
+
+   Background <background>
    Jungle Joe <jungle_joe>
+
