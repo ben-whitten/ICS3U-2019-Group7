@@ -4,7 +4,7 @@
 Menu System
 ***********
 
-X
+This section splits off into the trhee menu scenes in the game, click the links to go to each one.
 
 .. toctree::
    :maxdepth: 1
