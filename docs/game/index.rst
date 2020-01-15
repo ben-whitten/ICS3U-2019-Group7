@@ -4,10 +4,6 @@
 Game
 ****
 
-background <background.rst>
-
-Jungle Joe <jungle_joe.rst>
-
 The game scene is where you will build this game, there are many parts you must include but the most important will be the collison between the buttons coming from the top of the screen and the buttons which indicate when to press the designated button. The animation on the left of the screen will not be shown how to create here but in the jungle joe animation section. After setting the background you must first we must make the button locations on the screen show up to know when to press the designated button which is just putting a sprite at a specific location and is shown in the code below. After the sprites are in place and your backgroud is set now we will get sprites to come from top of screen. Since there are six unique sprites and they need to have the same X location as there stationary counterparts that are on screen. 
 
 The most important part of this game is its collision, as any game of this genre has this as there main attraction. The collision is like any other when the two sprites are touching and the designated button is pressed, the moving sprite should be moved to the off screen location. The best part about this game is that there will never be two of the same games as there is a random factor which determines how many more sprites come down and which sprites come down. The code for the collision detection is apart of the game code which will be shown below:
@@ -18,6 +14,8 @@ Now we will be adding the finshing touches to the game scene, to get everything 
 
 After you have finished with the game scene you may add sounds if you desire, the sounds will mostly relate to jungle joe animation and when you lose the game.
 .. toctree::
+   background <background.rst>
+   Jungle Joe <jungle_joe.rst>
    def game_scene(game_mode):
     # this function is the game scene
     sprites = []
