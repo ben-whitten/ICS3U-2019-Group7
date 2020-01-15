@@ -14,8 +14,8 @@ Now we will be adding the finshing touches to the game scene, to get everything 
 
 After you have finished with the game scene you may add sounds if you desire, the sounds will mostly relate to jungle joe animation and when you lose the game.
 .. toctree::
-   background <background.rst>
-   Jungle Joe <jungle_joe.rst>
+   background <background>
+   Jungle Joe <jungle_joe>
    def game_scene(game_mode):
     # this function is the game scene
     sprites = []
