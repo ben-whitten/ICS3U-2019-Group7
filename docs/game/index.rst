@@ -4,9 +4,9 @@
 Game
 ****
 
-background <background>
+background <background.rst>
 
-Jungle Joe <jungle_joe>
+Jungle Joe <jungle_joe.rst>
 
 The game scene is where you will build this game, there are many parts you must include but the most important will be the collison between the buttons coming from the top of the screen and the buttons which indicate when to press the designated button. The animation on the left of the screen will not be shown how to create here but in the jungle joe animation section. After setting the background you must first we must make the button locations on the screen show up to know when to press the designated button which is just putting a sprite at a specific location and is shown in the code below. After the sprites are in place and your backgroud is set now we will get sprites to come from top of screen. Since there are six unique sprites and they need to have the same X location as there stationary counterparts that are on screen. 
 
